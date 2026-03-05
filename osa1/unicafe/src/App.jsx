@@ -1,5 +1,18 @@
 import { useState } from 'react'
 
+const Statistics = (props) => {
+  return (
+    <div>
+      <div>good: {props.good}</div>
+      <div>neutral: {props.neutral}</div>
+      <div>bad: {props.bad}</div>
+      <div>all: {props.all}</div>
+      <div>average: {props.average}</div>
+      <div>positive: {props.positive} %</div>
+    </div>
+  )
+}
+
 const App = () => {
   // tallenna napit omaan tilaansa
   const [good, setGood] = useState(0)
@@ -9,7 +22,6 @@ const App = () => {
   // Laskee kaikki palautteet yhteen, keskiarvon ja positiivisten palautteiden prosenttiosuuden
   const all = good + neutral + bad
   const average = (good - bad) / all
-  console.log(average)
   const positive = (good / all * 100)
 
   return (
@@ -19,12 +31,15 @@ const App = () => {
       <button onClick={() => setNeutral(neutral + 1)}>neutral</button>
       <button onClick={() => setBad(bad + 1)}>bad</button>
       <h1>statistics</h1>
-      <div>good: {good}</div>
-      <div>neutral: {neutral}</div>
-      <div>bad: {bad}</div>
-      <div>all: {all}</div>
-      <div>average: {average}</div>
-      <div>positive: {positive} %</div>
+      <Statistics
+        good={good}
+        neutral={neutral}
+        bad={bad}
+        all={all}
+        average={average}
+        positive={positive}
+      />
+
     </div>
   )
 }
