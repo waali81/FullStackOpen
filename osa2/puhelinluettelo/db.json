@@ -39,6 +39,16 @@
       "id": "5bac",
       "name": "Kalle",
       "number": "040-4345356"
+    },
+    {
+      "id": "0dfe",
+      "name": "Hanna",
+      "number": "050-676575"
+    },
+    {
+      "id": "54a5",
+      "name": "",
+      "number": ""
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
