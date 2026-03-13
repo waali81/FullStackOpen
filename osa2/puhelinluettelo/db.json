@@ -21,34 +21,14 @@
       "id": "4"
     },
     {
-      "id": "3c16",
-      "name": "matti",
-      "number": "123344"
+      "id": "ecaa",
+      "name": "Matti Meikäläinen",
+      "number": "044-4565464"
     },
     {
-      "id": "82cd",
-      "name": "juuso",
-      "number": "65756765"
-    },
-    {
-      "id": "3e54",
+      "id": "3f4a",
       "name": "Timo Waali",
-      "number": "040-345454645"
-    },
-    {
-      "id": "5bac",
-      "name": "Kalle",
-      "number": "040-4345356"
-    },
-    {
-      "id": "0dfe",
-      "name": "Hanna",
-      "number": "050-676575"
-    },
-    {
-      "id": "54a5",
-      "name": "",
-      "number": ""
+      "number": "040-5454766"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
