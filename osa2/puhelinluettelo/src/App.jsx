@@ -36,7 +36,10 @@ const App = () => {
           .update(alreadyAddedPerson.id, updatedPerson)
           .then(returnedPerson => {
             setPersons(persons.map(p => p.id !== alreadyAddedPerson.id ? p : returnedPerson))
-            setNotification(`Updated number for ${returnedPerson.name}`)
+            setNotification({
+              message: `Updated number for ${returnedPerson.name}`,
+              type: 'success'
+            })
             setTimeout(() => {
               setNotification(null)
             }, 5000)
@@ -47,14 +50,16 @@ const App = () => {
       return
     }
 
-    // Henkilö ei ole olemassa → lisää uusi
     const personObject = { name: newName, number: newNumber }
 
     personService
       .create(personObject)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
-        setNotification(`Added ${returnedPerson.name}`)
+        setNotification({
+          message: `Added ${returnedPerson.name}`,
+          type: 'success'
+        })
         setTimeout(() => {
         setNotification(null)
         }, 5000)
@@ -72,10 +77,21 @@ const App = () => {
         .remove(id)
         .then(() => {
           setPersons(persons.filter(person => person.id !== id))
-          setNotification(`Deleted ${name}`)
+          setNotification({
+            message: `Deleted ${name}`,
+            type: 'success'
+          })
           setTimeout(() => {
             setNotification(null)
           }, 5000)
+        })
+        .catch(error => {
+          setNotification({
+            message: `Information of ${name} has already been removed from server`,
+            type: 'error'
+          })
+          setTimeout(() => setNotification(null), 5000)
+          setPersons(persons.filter(person => person.id !== id))
         })
     }
   }
