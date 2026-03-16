@@ -11,11 +11,9 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
-    /* console.log('effect') */
     personService
       .getAll()
       .then(initialPersons => {
-        /* console.log('promise fulfilled') */
         setPersons(initialPersons)
       })
   }, [])
@@ -23,17 +21,28 @@ const App = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    const nameAlreadyAdded = persons.some(person => person.name === newName)
+    const alreadyAddedPerson = persons.find(p => p.name === newName)
 
-    if (nameAlreadyAdded) {
-      alert(`${newName} is already added to phonebook`)
+    if (alreadyAddedPerson) {
+      const confirmUpdate = window.confirm(
+        `${newName} is already added to phonebook. Replace the old number with a new one?`
+      )
+      if (confirmUpdate) {
+        const updatedPerson = { ...alreadyAddedPerson, number: newNumber }
+
+        personService
+          .update(alreadyAddedPerson.id, updatedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(p => p.id !== alreadyAddedPerson.id ? p : returnedPerson))
+            setNewName('')
+            setNewNumber('')
+          })
+      }
       return
     }
 
-    const personObject = {
-      name: newName,
-      number: newNumber
-    }
+    // Henkilö ei ole olemassa → lisää uusi
+    const personObject = { name: newName, number: newNumber }
 
     personService
       .create(personObject)
@@ -41,8 +50,8 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
-        /* console.log('Person added successfully') */
       })
+
   }
 
   const handleDelete = (id, name) => {
