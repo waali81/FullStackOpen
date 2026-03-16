@@ -19,16 +19,6 @@
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": "4"
-    },
-    {
-      "id": "ecaa",
-      "name": "Matti Meikäläinen",
-      "number": "044-4565464"
-    },
-    {
-      "id": "8d68",
-      "name": "Timo Waali",
-      "number": "045-1233322"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
