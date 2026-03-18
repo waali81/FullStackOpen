@@ -18,7 +18,7 @@ const App = () => {
 
   const handleSearchChange = (event) => {
     setSearch(event.target.value)
-    setSelectedCountry() // reset!
+    setSelectedCountry()
   }
 
   const filtered = countries.filter(country =>
