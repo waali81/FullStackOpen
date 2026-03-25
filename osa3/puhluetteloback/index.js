@@ -35,6 +35,10 @@ let persons = [
   }
 ]
 
+app.get('/', (request, response) => {
+  response.send('Puhelinluettelo backend toimii!')
+})
+
 app.get('/info', (request, response) => {
   const count = persons.length
   const date = new Date()
