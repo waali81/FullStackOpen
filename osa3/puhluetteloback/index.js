@@ -36,7 +36,7 @@ let persons = [
 ]
 
 app.get('/', (request, response) => {
-  response.send('Puhelinluettelo backend toimii!')
+  response.send('Puhelinluettelon backend toimii!')
 })
 
 app.get('/info', (request, response) => {
