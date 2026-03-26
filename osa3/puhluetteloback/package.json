@@ -7,8 +7,8 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "build:ui": "rm -rf dist && cd ../puhluettelofront && npm run build && cp -r dist ../puhluetteloback",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
+    "build:ui": "@powershell Remove-Item -Recurse -Force dist && cd ../puhluettelofront && npm run build && @powershell Copy-Item dist -Recurse ../puhluetteloback",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
     "dev": "nodemon index.js",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
