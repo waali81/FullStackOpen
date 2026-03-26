@@ -1,10 +1,10 @@
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
-const cors = require('cors')
+
 
 app.use(express.json())
-app.use(cors())
+
 app.use(express.static('dist'))
 
 morgan.token('body', (request) => {
@@ -35,10 +35,6 @@ let persons = [
     number: '39-23-6423122'
   }
 ]
-
-/* app.get('/', (request, response) => {
-  response.send('Puhelinluettelon backend toimii!')
-}) */
 
 app.get('/info', (request, response) => {
   const count = persons.length
