@@ -1,6 +1,8 @@
+require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
+const Person = require('./models/person')
 
 
 app.use(express.json())
@@ -14,7 +16,7 @@ morgan.token('body', (request) => {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 let persons = [
-  {
+/*   {
     id: 1,
     name: 'Arto Hellas',
     number: '040-123456'
@@ -33,10 +35,10 @@ let persons = [
     id: 4,
     name: 'Mary Poppendieck',
     number: '39-23-6423122'
-  }
+  } */
 ]
 
-app.get('/info', (request, response) => {
+/* app.get('/info', (request, response) => {
   const count = persons.length
   const date = new Date()
 
@@ -44,10 +46,26 @@ app.get('/info', (request, response) => {
     <p>Phonebook has info for ${count} people</p>
     <p>${date}</p>
   `)
+}) */
+
+app.get('/info', (request, response) => {
+  Person.countDocuments({}).then(count => {
+    const date = new Date()
+
+    response.send(`
+      <p>Phonebook has info for ${count} people</p>
+      <p>${date}</p>
+    `)
+  })
 })
 
-app.get('/api/persons', (request, response) => {
+/* app.get('/api/persons', (request, response) => {
   response.json(persons)
+}) */
+app.get('/api/persons', (request, response) => {
+  Person.find({}).then(persons => {
+    response.json(persons)
+  })
 })
 
 app.get('/api/persons/:id', (request, response) => {
