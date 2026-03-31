@@ -1,5 +1,5 @@
-/* const mongoose = require('mongoose') */
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
+/* import mongoose from 'mongoose' */
 
 const password = process.argv[2]
 const name = process.argv[3]
