@@ -24,6 +24,7 @@ app.get('/info', (request, response) => {
       <p>${date}</p>
     `)
   })
+  .catch(error => next(error))
 })
 
 app.get('/api/persons', (request, response) => {
