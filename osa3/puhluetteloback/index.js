@@ -4,9 +4,7 @@ const morgan = require('morgan')
 const app = express()
 const Person = require('./models/person')
 
-
 app.use(express.json())
-
 app.use(express.static('dist'))
 
 morgan.token('body', (request) => {
