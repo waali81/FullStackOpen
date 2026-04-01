@@ -1,7 +1,7 @@
-POST https://fullstackopen-il1d.onrender.com/api/persons
+POST http://localhost:3001/api/persons
 Content-Type: application/json
 
 {
-    "name": "Testi Ukko",
-    "number": "777-56546"
+    "name": "Teppo Testaaja",
+    "number": "055-2132445"
 }
