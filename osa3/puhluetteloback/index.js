@@ -13,7 +13,7 @@ morgan.token('body', (request) => {
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
-app.get('/info', (request, response) => {
+app.get('/info', (request, response, next) => {
   Person.countDocuments({}).then(count => {
     const date = new Date()
 
@@ -22,7 +22,7 @@ app.get('/info', (request, response) => {
       <p>${date}</p>
     `)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.get('/api/persons', (request, response) => {
@@ -66,7 +66,7 @@ app.post('/api/persons', (request, response, next) => {
   person.save().then(savedPerson => {
     response.json(savedPerson)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
