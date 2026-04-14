@@ -40,7 +40,7 @@ describe('when there are blogs in db', () => {
   })
 })
 
-describe('addition of a new blog', () => {
+describe('addition of new blog', () => {
   test('a valid blog can be added', async () => {
     const newBlog = {
       title: 'Async testing blog',
@@ -87,6 +87,34 @@ describe('blog validation', () => {
     )
 
     assert.strictEqual(addedBlog.likes, 0)
+  })
+})
+
+describe('blog validation 2', () => {
+  test('blog without title is not added and returns 400', async () => {
+    const newBlog = {
+      author: 'Tester',
+      url: 'http://example.com',
+      likes: 0
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  })
+
+  test('blog without url is not added and returns 400', async () => {
+    const newBlog = {
+      title: 'Missing URL blog',
+      author: 'Tester',
+      likes: 0
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
   })
 })
 
