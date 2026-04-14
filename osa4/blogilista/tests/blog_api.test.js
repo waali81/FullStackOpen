@@ -38,7 +38,33 @@ describe('when there are blogs in db', () => {
     assert.ok(blog.id)
     assert.strictEqual(blog._id, undefined)
   })
+})
 
+describe('addition of a new blog', () => {
+  test('a valid blog can be added', async () => {
+    const newBlog = {
+      title: 'Async testing blog',
+      author: 'Tester',
+      url: 'http://example.com/test',
+      likes: 10,
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    assert.strictEqual(
+      blogsAtEnd.length,
+      helper.initialBlogs.length + 1
+    )
+
+    const titles = blogsAtEnd.map(b => b.title)
+    assert(titles.includes('Async testing blog'))
+  })
 })
 
 after(async () => {
