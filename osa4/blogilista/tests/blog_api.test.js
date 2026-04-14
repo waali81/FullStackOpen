@@ -118,6 +118,23 @@ describe('blog validation 2', () => {
   })
 })
 
+describe('deleting a blog', () => {
+  test('succeeds 204 if id is valid', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    const titles = blogsAtEnd.map(b => b.title)
+
+    assert(!titles.includes(blogToDelete.title))
+  })
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
