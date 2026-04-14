@@ -67,6 +67,29 @@ describe('addition of a new blog', () => {
   })
 })
 
+describe('blog validation', () => {
+  test('if likes is missing, it defaults to 0', async () => {
+    const newBlog = {
+      title: 'Blog without likes',
+      author: 'Tester',
+      url: 'http://example.com',
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    const addedBlog = blogsAtEnd.find(
+      b => b.title === 'Blog without likes'
+    )
+
+    assert.strictEqual(addedBlog.likes, 0)
+  })
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
