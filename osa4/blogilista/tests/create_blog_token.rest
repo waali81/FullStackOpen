@@ -1,9 +1,9 @@
 POST http://localhost:3003/api/blogs
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRpbW9XIiwiaWQiOiI2OWU3MzAxMDk0NDgxN2YxZDc3YWE3ZWQiLCJpYXQiOjE3NzY3NTg4MzMsImV4cCI6MTc3Njc2MjQzM30.FbbOG7BMsUmXIvwPatxoCr7XKzuq6aLttB_qvXZBxMo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRpbW9XIiwiaWQiOiI2OWU3MzAxMDk0NDgxN2YxZDc3YWE3ZWQiLCJpYXQiOjE3NzY3OTYxODUsImV4cCI6MTc3Njc5OTc4NX0.favabTTWlqsQpYhuMYSkK7OjhrYy7CNtMxfbyKnyDBU
 Content-Type: application/json
 
 {
-  "title": "Token blogi",
-  "author": "Meikä",
+  "title": "Delete blogi",
+  "author": "Minä",
   "url": "http://testi.com"
 }
