@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlcHBvVCIsImlkIjoiNjllNzFmMjlmMTU4NDgwYWE0NWMyZjQzIiwiaWF0IjoxNzc2NzU1NDQzLCJleHAiOjE3NzY3NTkwNDN9.TUPdVSOEXOtZhuhjozys6NRVWNOKUXtvL8twxmHSpnQ
+Content-Type: application/json
+
+{
+  "title": "Token blogi",
+  "author": "Meikä",
+  "url": "http://testi.com"
+}
