@@ -2,6 +2,8 @@ const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
+const middleware = require('../utils/middleware')
+
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog
@@ -11,10 +13,17 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
-blogsRouter.post('/', async (request, response, next) => {
+blogsRouter.post('/', middleware.userExtractor, async (request, response, next) => {
   try {
 
-    if (!request.token) {
+    const user = request.user
+
+    const blog = new Blog({
+      ...request.body,
+      user: user._id
+    })
+
+/*     if (!request.token) {
       return response.status(401).json({ error: 'token missing' })
     }
 
@@ -33,7 +42,7 @@ blogsRouter.post('/', async (request, response, next) => {
     const blog = new Blog({
       ...request.body,
       user: user._id
-    })
+    }) */
 
     const savedBlog = await blog.save()
 
@@ -46,10 +55,12 @@ blogsRouter.post('/', async (request, response, next) => {
   }
 })
 
-blogsRouter.delete('/:id', async (request, response, next) => {
+blogsRouter.delete('/:id', middleware.userExtractor, async (request, response, next) => {
   try {
 
-    if (!request.token) {
+    const user = request.user
+
+/*    if (!request.token) {
       return response.status(401).json({ error: 'token missing' })
     }
 
@@ -58,7 +69,7 @@ blogsRouter.delete('/:id', async (request, response, next) => {
 
     if (!decodedToken.id) {
       return response.status(401).json({ error: 'token invalid' })
-    }
+    } */
 
     // 3. hae blogi
     const blog = await Blog.findById(request.params.id)
@@ -68,7 +79,7 @@ blogsRouter.delete('/:id', async (request, response, next) => {
     }
 
     // 4. omistajuuden tarkistus
-    if (blog.user.toString() !== decodedToken.id.toString()) {
+    if (blog.user.toString() !== user.id.toString()) {
       return response.status(401).json({ error: 'not allowed to delete this blog' })
     }
 
