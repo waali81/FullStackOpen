@@ -84,9 +84,6 @@ describe('total likes', () => {
   })
 
   test('of a bigger list is calculated right', () => {
-   /*  console.log(
-      listWithManyBlogs.reduce((sum, blog) => sum + blog.likes, 0)
-    ) */
     const result = listHelper.totalLikes(listWithManyBlogs)
     assert.strictEqual(result, 38)
   })

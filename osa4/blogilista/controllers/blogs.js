@@ -23,27 +23,6 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response, next) 
       user: user._id
     })
 
-/*     if (!request.token) {
-      return response.status(401).json({ error: 'token missing' })
-    }
-
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-
-    if (!decodedToken.id) {
-      return response.status(401).json({ error: 'token invalid' })
-    }
-
-    const user = await User.findById(decodedToken.id)
-
-    if (!user) {
-      return response.status(401).json({ error: 'user not found' })
-    }
-
-    const blog = new Blog({
-      ...request.body,
-      user: user._id
-    }) */
-
     const savedBlog = await blog.save()
 
     user.blogs = user.blogs.concat(savedBlog._id)
@@ -60,25 +39,14 @@ blogsRouter.delete('/:id', middleware.userExtractor, async (request, response, n
 
     const user = request.user
 
-/*    if (!request.token) {
-      return response.status(401).json({ error: 'token missing' })
-    }
-
-    // 2. token validointi
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-
-    if (!decodedToken.id) {
-      return response.status(401).json({ error: 'token invalid' })
-    } */
-
-    // 3. hae blogi
+    // hae blogi
     const blog = await Blog.findById(request.params.id)
 
     if (!blog) {
       return response.status(404).end()
     }
 
-    // 4. omistajuuden tarkistus
+    // omistajuuden tarkistus
     if (blog.user.toString() !== user.id.toString()) {
       return response.status(401).json({ error: 'not allowed to delete this blog' })
     }
