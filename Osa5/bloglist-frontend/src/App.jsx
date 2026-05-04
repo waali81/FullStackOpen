@@ -16,6 +16,16 @@ const App = () => {
     )  
   }, [])
 
+  // käyttäjän haku localstoragesta
+  useEffect(() => {
+  const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+
+  if (loggedUserJSON) {
+    const user = JSON.parse(loggedUserJSON)
+    setUser(user)
+  }
+}, [])
+
   // login handler
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -26,12 +36,24 @@ const App = () => {
         password
       })
 
+      // tallennus localstorageen
+      window.localStorage.setItem(
+        'loggedBlogappUser',
+        JSON.stringify(user)
+      )
+
       setUser(user)
       setUsername('')
       setPassword('')
     } catch {
       console.log('wrong credentials')
     }
+  }
+
+  // logout handler
+  const handleLogout = () => {
+    window.localStorage.removeItem('loggedBlogappUser')
+    setUser(null)
   }
 
   // jos ei kirjautunut, näytä login
@@ -42,7 +64,7 @@ const App = () => {
 
         <form onSubmit={handleLogin}>
           <div>
-            username
+            username:{" "}
             <input
               type="text"
               value={username}
@@ -51,7 +73,7 @@ const App = () => {
           </div>
 
           <div>
-            password
+            password:{" "}
             <input
               type="password"
               value={password}
@@ -70,7 +92,10 @@ const App = () => {
     <div>
       <h2>blogs</h2>
 
-      <p>{user.name} logged in</p>
+      <p>
+        {user.name} logged in{" "}
+        <button onClick={handleLogout}>logout</button>
+      </p>
 
       {blogs.map(blog => (
         <Blog key={blog.id} blog={blog} />
