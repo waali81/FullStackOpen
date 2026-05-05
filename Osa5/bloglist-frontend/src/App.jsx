@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -11,6 +12,7 @@ const App = () => {
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
+  const [notification, setNotification] = useState(null)
 
   // hae blogit
   useEffect(() => {
@@ -28,7 +30,15 @@ const App = () => {
     setUser(user)
     blogService.setToken(user.token)
   }
-}, [])
+  }, [])
+
+  const showNotification = (message, type = 'success') => {
+    setNotification({message, type})
+
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+  }
 
   // login handler
   const handleLogin = async (event) => {
@@ -52,7 +62,8 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch {
-      console.log('wrong credentials')
+      showNotification('wrong username/password', 'error')
+      /* console.log('wrong credentials') */
     }
   }
 
@@ -74,6 +85,10 @@ const App = () => {
     const createdBlog = await blogService.create(newBlog)
 
     setBlogs(blogs.concat(createdBlog))
+
+    showNotification(
+      `a new blog '${createdBlog.title}' by ${createdBlog.author} added`, 'success'
+    )
 
     setNewTitle('')
     setNewAuthor('')
@@ -120,6 +135,11 @@ const App = () => {
       <div>
         <h2>Log in to application</h2>
 
+        <Notification
+          message={notification?.message}
+          type={notification?.type}
+        />
+
         <form onSubmit={handleLogin}>
           <div>
             username:{" "}
@@ -149,6 +169,10 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+
+      <Notification
+        message={notification?.message}
+        type={notification?.type}  />
 
       <p>
         {user.name} logged in{" "}
