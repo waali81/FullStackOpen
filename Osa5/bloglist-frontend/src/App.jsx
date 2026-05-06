@@ -78,6 +78,7 @@ const App = () => {
   const handleCreateBlog = async (blogObject) => {
     const createdBlog = await blogService.create(blogObject)
 
+    // viimeisin blogi listan loppuun
     setBlogs(prev => prev.concat(createdBlog))
 
     showNotification(
