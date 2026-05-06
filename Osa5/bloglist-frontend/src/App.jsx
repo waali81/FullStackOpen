@@ -4,15 +4,13 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
+import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [newTitle, setNewTitle] = useState('')
-  const [newAuthor, setNewAuthor] = useState('')
-  const [newUrl, setNewUrl] = useState('')
   const [notification, setNotification] = useState(null)
   const blogFormRef = useRef()
 
@@ -34,6 +32,7 @@ const App = () => {
   }
   }, [])
 
+  // notifikaation näyttäminen
   const showNotification = (message, type = 'success') => {
     setNotification({message, type})
 
@@ -75,63 +74,19 @@ const App = () => {
     setUser(null)
   }
 
-  const handleCreateBlog = async (event) => {
-    event.preventDefault()
+  // blogin luonti handler
+  const handleCreateBlog = async (blogObject) => {
+    const createdBlog = await blogService.create(blogObject)
 
-    const newBlog = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl
-    }
-
-    const createdBlog = await blogService.create(newBlog)
-
-    setBlogs(blogs.concat(createdBlog))
+    setBlogs(prev => prev.concat(createdBlog))
 
     showNotification(
-      `a new blog '${createdBlog.title}' by ${createdBlog.author} added`, 'success'
+      `a new blog '${createdBlog.title}' by ${createdBlog.author} added`,
+      'success'
     )
 
-    setNewTitle('')
-    setNewAuthor('')
-    setNewUrl('')
-
-    blogFormRef.current.toggleVisibility()
+    blogFormRef.current?.toggleVisibility()
   }
-
-  const blogForm = () => (
-    <div>
-      <h3>Create new blog</h3>
-
-      <form onSubmit={handleCreateBlog}>
-        <div>
-          title:{" "}
-          <input
-            value={newTitle}
-            onChange={({ target }) => setNewTitle(target.value)}
-          />
-        </div>
-
-        <div>
-          author:{" "}
-          <input
-            value={newAuthor}
-            onChange={({ target }) => setNewAuthor(target.value)}
-          />
-        </div>
-
-        <div>
-          url: {" "}
-          <input
-            value={newUrl}
-            onChange={({ target }) => setNewUrl(target.value)}
-          />
-        </div>
-
-        <button type="submit">create</button>
-      </form>
-    </div>
-  )
 
   // jos ei kirjautunut, näytä login
   if (user === null) {
@@ -184,7 +139,7 @@ const App = () => {
       </p>
 
       <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-        {blogForm()}
+        <BlogForm createBlog={handleCreateBlog} />
       </Togglable>
 
       {blogs.map(blog => (
