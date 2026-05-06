@@ -91,7 +91,7 @@ const App = () => {
   // like handler
   const handleLike = async (blog) => {
     const updatedBlog = {
-      user: blog.user.id,
+      user: blog.user?.id,
       likes: blog.likes + 1,
       author: blog.author,
       title: blog.title,
@@ -100,9 +100,11 @@ const App = () => {
 
     const returnedBlog = await blogService.update(blog.id, updatedBlog)
 
-    setBlogs(blogs.map(b =>
-      b.id === blog.id ? returnedBlog : b
-    ))
+    setBlogs(prev =>
+      prev.map(b =>
+        b.id === blog.id ? returnedBlog : b
+      )
+    )
   }
 
   // jos ei kirjautunut, näytä login
