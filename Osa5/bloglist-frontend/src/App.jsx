@@ -91,7 +91,7 @@ const App = () => {
   // like handler
   const handleLike = async (blog) => {
     const updatedBlog = {
-      user: blog.user?.id,
+      user: blog.user.id,
       likes: blog.likes + 1,
       author: blog.author,
       title: blog.title,
