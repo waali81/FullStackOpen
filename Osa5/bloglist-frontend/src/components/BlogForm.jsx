@@ -8,10 +8,10 @@ const BlogForm = ({ createBlog, showNotification }) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-      if (newTitle.trim() === '' || newUrl.trim() === '') {
-        showNotification('title and url are required', 'error')
-        return
-      }
+    if (newTitle.trim() === '' || newUrl.trim() === '') {
+      showNotification('title and url are required', 'error')
+      return
+    }
 
     await createBlog({
       title: newTitle,

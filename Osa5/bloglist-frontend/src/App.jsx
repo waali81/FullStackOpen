@@ -18,23 +18,23 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   // käyttäjän haku localstoragesta
   useEffect(() => {
-  const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
 
-  if (loggedUserJSON) {
-    const user = JSON.parse(loggedUserJSON)
-    setUser(user)
-    blogService.setToken(user.token)
-  }
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
   }, [])
 
   // notifikaation näyttäminen
   const showNotification = (message, type = 'success') => {
-    setNotification({message, type})
+    setNotification({ message, type })
 
     setTimeout(() => {
       setNotification(null)
@@ -137,7 +137,7 @@ const App = () => {
 
         <form onSubmit={handleLogin}>
           <div>
-            username:{" "}
+            username:
             <input
               type="text"
               value={username}
@@ -146,7 +146,7 @@ const App = () => {
           </div>
 
           <div>
-            password:{" "}
+            password:
             <input
               type="password"
               value={password}
@@ -167,17 +167,18 @@ const App = () => {
 
       <Notification
         message={notification?.message}
-        type={notification?.type}  />
+        type={notification?.type}
+      />
 
       <p>
-        {user.name} logged in{" "}
+        {user.name} logged in
         <button onClick={handleLogout}>logout</button>
       </p>
 
       <Togglable buttonLabel="create new blog" ref={blogFormRef}>
         <BlogForm
-        createBlog={handleCreateBlog}
-        showNotification={showNotification}
+          createBlog={handleCreateBlog}
+          showNotification={showNotification}
         />
       </Togglable>
 

@@ -22,21 +22,21 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
     <div style={blogStyle}>
       {/* suppea näkymä */}
       <div style={hideWhenVisible}>
-        {blog.title} {blog.author}{" "}
+        {blog.title} {blog.author}
         <button onClick={toggleVisibility}>view</button>
       </div>
 
       {/* kokonäkymä */}
       <div style={showWhenVisible}>
         <div>
-          {blog.title} {blog.author}{" "}
+          {blog.title} {blog.author}
           <button onClick={toggleVisibility}>hide</button>
         </div>
 
         <div>{blog.url}</div>
 
         <div>
-          likes {blog.likes}{" "}
+          likes {blog.likes}
           <button onClick={() => handleLike(blog)}>
             like
           </button>
