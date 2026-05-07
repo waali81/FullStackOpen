@@ -1,12 +1,17 @@
 import { useState } from 'react'
 
-const BlogForm = ({ createBlog }) => {
+const BlogForm = ({ createBlog, showNotification }) => {
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+
+      if (newTitle.trim() === '' || newUrl.trim() === '') {
+        showNotification('title and url are required', 'error')
+        return
+      }
 
     await createBlog({
       title: newTitle,

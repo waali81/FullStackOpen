@@ -175,7 +175,10 @@ const App = () => {
       </p>
 
       <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-        <BlogForm createBlog={handleCreateBlog} />
+        <BlogForm
+        createBlog={handleCreateBlog}
+        showNotification={showNotification}
+        />
       </Togglable>
 
       {[...blogs]
