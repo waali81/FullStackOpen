@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog, handleLike }) => {
+const Blog = ({ blog, handleLike, handleDelete, user }) => {
   const [visible, setVisible] = useState(false)
 
   const hideWhenVisible = { display: visible ? 'none' : '' }
@@ -43,6 +43,15 @@ const Blog = ({ blog, handleLike }) => {
         </div>
 
         <div>{blog.user?.name}</div>
+
+        {/* remove-nappi vain blogin lisääjälle */}
+        {blog.user?.username === user.username && (
+          <div>
+            <button onClick={() => handleDelete(blog)}>
+              remove
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )

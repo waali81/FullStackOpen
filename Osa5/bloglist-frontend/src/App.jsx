@@ -107,6 +107,23 @@ const App = () => {
     )
   }
 
+  // delete handler
+  const handleDelete = async (blog) => {
+    const ok = window.confirm(
+      `Remove blog "${blog.title}" by ${blog.author}?`
+    )
+
+    if (!ok) {
+      return
+    }
+
+    await blogService.remove(blog.id)
+
+    setBlogs(prev =>
+      prev.filter(b => b.id !== blog.id)
+    )
+  }
+
   // jos ei kirjautunut, näytä login
   if (user === null) {
     return (
@@ -168,6 +185,8 @@ const App = () => {
             key={blog.id}
             blog={blog}
             handleLike={handleLike}
+            handleDelete={handleDelete}
+            user={user}
           />
         ))
       }
