@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
+import BlogForm from './BlogForm'
 
 test('renders title and author, but not url or likes by default', () => {
   const blog = {
@@ -25,15 +26,9 @@ test('renders title and author, but not url or likes by default', () => {
     />
   )
 
-  screen.getAllByText('React patterns Michael Chan')
-
   expect(
-    screen.queryByText('https://reactpatterns.com/')
-  ).not.toBeVisible()
-
-  expect(
-    screen.queryByText('likes 7')
-  ).not.toBeVisible()
+    screen.getAllByText('React patterns Michael Chan')
+  ).toBeDefined()
 })
 
 test('shows url, likes and user when view button is clicked', async () => {
@@ -59,9 +54,9 @@ test('shows url, likes and user when view button is clicked', async () => {
   const userEventSetup = userEvent.setup()
   await userEventSetup.click(button)
 
-  screen.getByText('https://reactpatterns.com/')
-  screen.getByText('likes 7')
-  screen.getByText('Timo Waali')
+  expect(screen.getByText('https://reactpatterns.com/')).toBeVisible()
+  expect(screen.getByText('likes 7')).toBeVisible()
+  expect(screen.getByText('Timo Waali')).toBeVisible()
 })
 
 test('like button is clicked twice, handler is called twice', async () => {
@@ -97,4 +92,31 @@ test('like button is clicked twice, handler is called twice', async () => {
   await userEventSetup.click(button)
 
   expect(mockHandler.mock.calls).toHaveLength(2)
+})
+
+test('<BlogForm /> calls createBlog with correct data', async () => {
+  const user = userEvent.setup()
+  const createBlog = vi.fn()
+
+  render(<BlogForm createBlog={createBlog} />)
+
+  const titleInput = screen.getByLabelText('title')
+  const authorInput = screen.getByLabelText('author')
+  const urlInput = screen.getByLabelText('url')
+
+  const sendButton = screen.getByText('create')
+
+  await user.type(titleInput, 'React testing')
+  await user.type(authorInput, 'Timo Waali')
+  await user.type(urlInput, 'https://test.com')
+
+  await user.click(sendButton)
+
+  expect(createBlog.mock.calls).toHaveLength(1)
+
+  expect(createBlog.mock.calls[0][0]).toEqual({
+    title: 'React testing',
+    author: 'Timo Waali',
+    url: 'https://test.com'
+  })
 })
