@@ -63,3 +63,38 @@ test('shows url, likes and user when view button is clicked', async () => {
   screen.getByText('likes 7')
   screen.getByText('Timo Waali')
 })
+
+test('like button is clicked twice, handler is called twice', async () => {
+  const blog = {
+    title: 'React patterns',
+    author: 'Michael Chan',
+    url: 'https://reactpatterns.com/',
+    likes: 7,
+    user: {
+      username: 'twaali',
+      name: 'Timo Waali'
+    }
+  }
+
+  const user = {
+    username: 'twaali'
+  }
+
+  const mockHandler = vi.fn()
+
+  render(
+    <Blog
+      blog={blog}
+      user={user}
+      handleLike={mockHandler}
+    />
+  )
+
+  const userEventSetup = userEvent.setup()
+  const button = screen.getByText('like')
+
+  await userEventSetup.click(button)
+  await userEventSetup.click(button)
+
+  expect(mockHandler.mock.calls).toHaveLength(2)
+})
