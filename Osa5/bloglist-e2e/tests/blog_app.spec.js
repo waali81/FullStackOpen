@@ -4,9 +4,11 @@ const { loginWith, createBlog } = require('./helper')
 
 describe('Blog app', () => {
     beforeEach(async ({ page, request }) => {
-        await request.post('http://localhost:3003/api/testing/reset')
+        /* await request.post('http://localhost:3003/api/testing/reset') */
+        await request.post('/api/testing/reset')
 
-        await request.post('http://localhost:3003/api/users', {
+        /* await request.post('http://localhost:3003/api/users', { */
+        await request.post('/api/users', {
             data: {
                 name: 'Teppo Testaaja',
                 username: 'Testi',
@@ -14,7 +16,8 @@ describe('Blog app', () => {
             }
         })
 
-        await request.post('http://localhost:3003/api/users', {
+        /* await request.post('http://localhost:3003/api/users', { */
+        await request.post('/api/users', {
             data: {
                 name: 'Toinen Käyttäjä',
                 username: 'toinen',
@@ -22,7 +25,7 @@ describe('Blog app', () => {
             }
         })
 
-        await page.goto('http://localhost:5173')
+        await page.goto('/')
     })
 
     test('Login form is shown', async ({ page }) => {
@@ -167,6 +170,35 @@ describe('Blog app', () => {
             await expect(
                 blog.getByRole('button', { name: 'remove' })
             ).not.toBeVisible()
+        })
+
+        test('blogs are ordered by likes (most liked first)', async ({ page }) => {
+            // luodaan 3 blogia
+            await createBlog(page, 'Blog 1', 'Teppo Testaaja', 'url1')
+            await createBlog(page, 'Blog 2', 'Teppo Testaaja', 'url2')
+            await createBlog(page, 'Blog 3', 'Teppo Testaaja', 'url3')
+
+            const blogs = page.locator('.blog')
+
+            const first = blogs.nth(0)
+            const second = blogs.nth(1)
+            const third = blogs.nth(2)
+
+            await first.getByRole('button', { name: 'view' }).click()
+            await second.getByRole('button', { name: 'view' }).click()
+            await third.getByRole('button', { name: 'view' }).click()
+
+            // lisää likejä toiseen blogiin
+            await second.getByRole('button', { name: 'like' }).click()
+            await second.getByRole('button', { name: 'like' }).click()
+
+            // lisää likejä kolmanteen blogiin
+            await third.getByRole('button', { name: 'like' }).click()
+
+            // tarkistetaan järjestys
+            await expect(blogs.nth(0)).toContainText('Blog 2')
+            await expect(blogs.nth(1)).toContainText('Blog 3')
+            await expect(blogs.nth(2)).toContainText('Blog 1')
         })
 
     })
