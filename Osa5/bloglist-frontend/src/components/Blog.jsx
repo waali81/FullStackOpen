@@ -19,7 +19,7 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div className="blog" style={blogStyle}>
       {/* suppea näkymä */}
       <div style={hideWhenVisible}>
         {blog.title} {blog.author}
