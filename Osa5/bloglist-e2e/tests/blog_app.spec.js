@@ -14,6 +14,14 @@ describe('Blog app', () => {
             }
         })
 
+        await request.post('http://localhost:3003/api/users', {
+            data: {
+                name: 'Toinen Käyttäjä',
+                username: 'toinen',
+                password: 'salasana'
+            }
+        })
+
         await page.goto('http://localhost:5173')
     })
 
@@ -132,6 +140,33 @@ describe('Blog app', () => {
             await blog.getByRole('button', { name: 'remove' }).click()
 
             await expect(blog).not.toBeVisible()
+        })
+
+        test('only the user who added the blog sees the remove button', async ({ page }) => {
+            // käyttäjä 1 luo blogin
+            await createBlog(
+                page,
+                'Permission test blog',
+                'Teppo Testaaja',
+                'www.testi.fi'
+            )
+
+            // logout
+            await page.getByRole('button', { name: 'logout' }).click()
+
+            // käyttäjä 2 kirjautuu
+            await loginWith(page, 'toinen', 'salasana')
+
+            const blog = page.locator('.blog').filter({
+                hasText: 'Permission test blog'
+            })
+
+            await blog.getByRole('button', { name: 'view' }).click()
+
+            // remove-nappia EI saa näkyä
+            await expect(
+                blog.getByRole('button', { name: 'remove' })
+            ).not.toBeVisible()
         })
 
     })
