@@ -110,5 +110,29 @@ describe('Blog app', () => {
             ).toBeVisible()
         })
 
+        test('a user can delete a blog', async ({ page }) => {
+            await createBlog(
+                page,
+                'Delete test blog',
+                'Teppo Testaaja',
+                'www.testi.fi'
+            )
+
+            const blog = page.locator('.blog').filter({
+                hasText: 'Delete test blog'
+            })
+
+            await expect(blog).toBeVisible()
+
+            await blog.getByRole('button', { name: 'view' }).click()
+
+            // hyväksyy window.confirmin
+            page.on('dialog', dialog => dialog.accept())
+
+            await blog.getByRole('button', { name: 'remove' }).click()
+
+            await expect(blog).not.toBeVisible()
+        })
+
     })
 })
