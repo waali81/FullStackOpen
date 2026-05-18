@@ -45,7 +45,7 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
         <div>{blog.user?.name}</div>
 
         {/* remove-nappi vain blogin lisääjälle */}
-        {blog.user?.username === user.username && (
+        {blog.user?.username === user?.username && (
           <div>
             <button onClick={() => handleDelete(blog)}>
               remove
