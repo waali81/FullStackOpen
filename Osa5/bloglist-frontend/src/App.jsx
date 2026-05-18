@@ -13,6 +13,7 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 import BlogView from './components/BlogView'
+import LoginForm from './components/LoginForm'
 
 const App = () => {
   const navigate = useNavigate()
@@ -96,6 +97,8 @@ const App = () => {
       'success'
     )
 
+    navigate('/')
+
     blogFormRef.current?.toggleVisibility()
   }
 
@@ -133,6 +136,8 @@ const App = () => {
     setBlogs(prev =>
       prev.filter(b => b.id !== blog.id)
     )
+
+    navigate('/')
   }
 
   const match = useMatch('/blogs/:id')
@@ -145,22 +150,34 @@ const App = () => {
 
   return (
     <div>
+
+      {/* NAVIGATION */}
       <div>
-        <Link style={{ paddingRight: 5 }} to="/">
-          blogs
-        </Link>
+        <Link to="/">blogs</Link>
+
+        {user && (
+          <>
+            <Link style={{ marginLeft: 10 }} to="/create">
+              create blog
+            </Link>
+
+            <button onClick={handleLogout}>
+              logout
+            </button>
+          </>
+        )}
 
         {!user && (
-          <Link to="/login">
+          <Link style={{ marginLeft: 10 }} to="/login">
             login
           </Link>
         )}
 
-        {user && (
-          <button onClick={handleLogout}>
-            logout
-          </button>
-        )}
+        {/*         {user && (
+          <p>
+            {user.name} logged in
+          </p>
+        )} */}
       </div>
 
       <Notification
@@ -168,8 +185,10 @@ const App = () => {
         type={notification?.type}
       />
 
+      {/* ROUTES */}
       <Routes>
 
+        {/* BLOG VIEW */}
         <Route
           path="/blogs/:id"
           element={
@@ -182,86 +201,56 @@ const App = () => {
           }
         />
 
+        {/* CREATE BLOG */}
         <Route
-          path="/login"
+          path="/create"
           element={
-            <div>
-              <h2>Log in to application</h2>
-
-              <form onSubmit={handleLogin}>
-                <div>
-                  <label>
-                    username:
-                    <input
-                      type="text"
-                      value={username}
-                      onChange={({ target }) =>
-                        setUsername(target.value)
-                      }
-                    />
-                  </label>
-                </div>
-
-                <div>
-                  <label>
-                    password:
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={({ target }) =>
-                        setPassword(target.value)
-                      }
-                    />
-                  </label>
-                </div>
-
-                <button type="submit">
-                  login
-                </button>
-              </form>
-            </div>
+            user ? (
+              <BlogForm
+                createBlog={handleCreateBlog}
+                showNotification={showNotification}
+              />
+            ) : (
+              <div>not authorized</div>
+            )
           }
         />
 
+        {/* LOGIN */}
+        <Route
+          path="/login"
+          element={
+            <LoginForm
+              handleLogin={handleLogin}
+              username={username}
+              password={password}
+              setUsername={setUsername}
+              setPassword={setPassword}
+            />
+          }
+        />
+
+        {/* BLOG LIST */}
         <Route
           path="/"
           element={
             <div>
-
-              {user && (
-                <p>
-                  {user.name} logged in
-                </p>
-              )}
-
               <h2>blogs</h2>
 
-              {user && (
-                <>
-
-                  <Togglable
-                    buttonLabel="create new blog"
-                    ref={blogFormRef}
-                  >
-                    <BlogForm
-                      createBlog={handleCreateBlog}
-                      showNotification={showNotification}
-                    />
-                  </Togglable>
-                </>
-              )}
-
-              {[...blogs]
-                .sort((a, b) => b.likes - a.likes)
-                .map(blog => (
-                  <Blog
-                    key={blog.id}
-                    blog={blog}
-                    handleLike={handleLike}
-                    handleDelete={handleDelete}
-                    user={user}
-                  />
-                ))}
+              <ul>
+                {[...blogs]
+                  .sort((a, b) => b.likes - a.likes)
+                  .map(blog => (
+                    <li key={blog.id}>
+                      <Blog
+                        blog={blog}
+                        user={user}
+                        handleLike={handleLike}
+                        handleDelete={handleDelete}
+                      />
+                    </li>
+                  ))}
+              </ul>
             </div>
           }
         />
