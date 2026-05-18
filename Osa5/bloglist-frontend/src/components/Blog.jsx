@@ -1,9 +1,10 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const Blog = ({ blog, handleLike, handleDelete, user }) => {
   const [visible, setVisible] = useState(false)
 
-  const hideWhenVisible = { display: visible ? 'none' : '' }
+  /* const hideWhenVisible = { display: visible ? 'none' : '' } */
   const showWhenVisible = { display: visible ? '' : 'none' }
 
   const toggleVisibility = () => {
@@ -20,11 +21,9 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
 
   return (
     <div className="blog" style={blogStyle}>
-      {/* suppea näkymä */}
-      <div style={hideWhenVisible}>
+      <Link to={`/blogs/${blog.id}`}>
         {blog.title} {blog.author}
-        <button onClick={toggleVisibility}>view</button>
-      </div>
+      </Link>
 
       {/* kokonäkymä */}
       <div style={showWhenVisible}>

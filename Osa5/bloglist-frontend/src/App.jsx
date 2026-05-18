@@ -3,7 +3,8 @@ import {
   Routes,
   Route,
   Link,
-  useNavigate
+  useNavigate,
+  useMatch
 } from 'react-router-dom'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
@@ -11,6 +12,7 @@ import loginService from './services/login'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
+import BlogView from './components/BlogView'
 
 const App = () => {
   const navigate = useNavigate()
@@ -132,6 +134,14 @@ const App = () => {
     )
   }
 
+  const match = useMatch('/blogs/:id')
+
+  const blog = match
+    ? blogs.find(
+      b => b.id === match.params.id
+    )
+    : null
+
   return (
     <div>
       <div>
@@ -158,6 +168,18 @@ const App = () => {
       />
 
       <Routes>
+
+        <Route
+          path="/blogs/:id"
+          element={
+            <BlogView
+              blog={blog}
+              handleLike={handleLike}
+              handleDelete={handleDelete}
+              user={user}
+            />
+          }
+        />
 
         <Route
           path="/login"
