@@ -71,6 +71,7 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+      navigate('/')
     } catch {
       showNotification('wrong username/password', 'error')
     }

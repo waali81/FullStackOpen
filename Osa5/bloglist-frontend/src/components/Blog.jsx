@@ -1,10 +1,20 @@
-import { useState } from 'react'
+/* import { useState } from 'react' */
 import { Link } from 'react-router-dom'
 
-const Blog = ({ blog, handleLike, handleDelete, user }) => {
+const Blog = ({ blog }) => {
+  return (
+    <div className="blog">
+      <Link to={`/blogs/${blog.id}`}>
+        {blog.title} {blog.author}
+      </Link>
+    </div>
+  )
+}
+
+/* const Blog = ({ blog, handleLike, handleDelete, user }) => {
   const [visible, setVisible] = useState(false)
 
-  /* const hideWhenVisible = { display: visible ? 'none' : '' } */
+  const hideWhenVisible = { display: visible ? 'none' : '' }
   const showWhenVisible = { display: visible ? '' : 'none' }
 
   const toggleVisibility = () => {
@@ -25,7 +35,17 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
         {blog.title} {blog.author}
       </Link>
 
-      {/* kokonäkymä */}
+      <div style={hideWhenVisible}>
+        <Link to={`/blogs/${blog.id}`}>
+          {blog.title} {blog.author}
+        </Link>
+
+        <button onClick={toggleVisibility}>
+          view
+        </button>
+      </div>
+
+
       <div style={showWhenVisible}>
         <div>
           {blog.title} {blog.author}
@@ -43,7 +63,7 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
 
         <div>{blog.user?.name}</div>
 
-        {/* remove-nappi vain blogin lisääjälle */}
+
         {blog.user?.username === user?.username && (
           <div>
             <button onClick={() => handleDelete(blog)}>
@@ -54,6 +74,6 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
       </div>
     </div>
   )
-}
+} */
 
 export default Blog
