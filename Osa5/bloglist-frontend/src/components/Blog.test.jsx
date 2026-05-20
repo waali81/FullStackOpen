@@ -27,7 +27,8 @@ describe('<BlogView />', () => {
       />
     )
 
-    expect(screen.getByText('React patterns Michael Chan')).toBeVisible()
+    expect(screen.getByText('React patterns')).toBeVisible()
+    expect(screen.getByText(/Michael Chan/)).toBeVisible()
     expect(screen.getByText('https://reactpatterns.com/')).toBeVisible()
     expect(screen.getByText('likes 7')).toBeVisible()
   })

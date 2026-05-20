@@ -249,7 +249,6 @@ const App = () => {
           element={
             <div>
               <h2>blogs</h2>
-
               <ul>
                 {[...blogs]
                   .sort((a, b) => b.likes - a.likes)
@@ -267,7 +266,6 @@ const App = () => {
             </div>
           }
         />
-
       </Routes>
     </div>
   )

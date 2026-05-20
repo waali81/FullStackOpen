@@ -56,11 +56,9 @@ describe('Blog app', () => {
         test('fails with wrong credentials', async ({ page }) => {
             await loginWith(page, 'wrong', 'wrong', false)
 
-            const errorDiv = page.locator('.error')
-
-            await expect(errorDiv).toContainText(
-                'wrong username/password'
-            )
+            await expect(
+                page.getByText('wrong username/password')
+            ).toBeVisible()
 
             await expect(
                 page.getByRole('button', { name: 'logout' })
