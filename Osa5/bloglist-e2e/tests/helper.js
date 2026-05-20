@@ -1,17 +1,33 @@
-const loginWith = async (page, username, password) => {
-  await page.getByLabel('username').fill(username)
-  await page.getByLabel('password').fill(password)
+const loginWith = async (
+  page,
+  username,
+  password,
+  expectSuccess = true
+) => {
+  await page.goto('/login')
+  await page.locator('input').nth(0).fill(username)
+  await page.locator('input').nth(1).fill(password)
   await page.getByRole('button', { name: 'login' }).click()
+
+  if (expectSuccess) {
+    await page
+      .getByRole('button', { name: 'logout' })
+      .waitFor()
+  }
 }
 
 const createBlog = async (page, title, author, url) => {
-  await page.getByRole('button', { name: 'new blog' }).click()
+  await page
+    .getByRole('link', { name: 'create blog' })
+    .click()
 
-  await page.getByLabel('title').fill(title)
-  await page.getByLabel('author').fill(author)
-  await page.getByLabel('url').fill(url)
+  await page.locator('input').nth(0).fill(title)
+  await page.locator('input').nth(1).fill(author)
+  await page.locator('input').nth(2).fill(url)
 
-  await page.getByRole('button', { name: 'create' }).click()
+  await page
+    .getByRole('button', { name: 'create' })
+    .click()
 }
 
 module.exports = {
