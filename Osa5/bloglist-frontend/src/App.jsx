@@ -6,6 +6,13 @@ import {
   useNavigate,
   useMatch
 } from 'react-router-dom'
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  Container,
+  Typography
+} from '@mui/material'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -152,33 +159,39 @@ const App = () => {
     <div>
 
       {/* NAVIGATION */}
-      <div>
-        <Link to="/">blogs</Link>
+      <AppBar position="static">
+        <Toolbar>
 
-        {user && (
-          <>
-            <Link style={{ marginLeft: 10 }} to="/create">
+          {/* vasen puoli: otsikko */}
+          <Typography variant="h4" sx={{ flexGrow: 1 }}>
+            Blog App
+          </Typography>
+
+          {/* navigaatio */}
+          <Button color="inherit" component={Link} to="/">
+            blogs
+          </Button>
+
+          {user && (
+            <Button color="inherit" component={Link} to="/create">
               create blog
-            </Link>
+            </Button>
+          )}
 
-            <button onClick={handleLogout}>
+          {!user && (
+            <Button color="inherit" component={Link} to="/login">
+              login
+            </Button>
+          )}
+
+          {user && (
+            <Button color="inherit" onClick={handleLogout}>
               logout
-            </button>
-          </>
-        )}
+            </Button>
+          )}
 
-        {!user && (
-          <Link style={{ marginLeft: 10 }} to="/login">
-            login
-          </Link>
-        )}
-
-        {/*         {user && (
-          <p>
-            {user.name} logged in
-          </p>
-        )} */}
-      </div>
+        </Toolbar>
+      </AppBar>
 
       <Notification
         message={notification?.message}
