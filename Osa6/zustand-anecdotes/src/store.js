@@ -17,15 +17,11 @@ const useAnecdoteStore = create((set) => ({
         .toSorted((a, b) => b.votes - a.votes)
     })),
 
-    create: (content) => {
-      const anecdote = {
-        content,
-        id: (100000 * Math.random()).toFixed(0),
-        votes: 0
-      }
+    create: async (content) => {
+      const newAnecdote = await anecdoteService.createNew(content)
 
       set((state) => ({
-        anecdotes: state.anecdotes.concat(anecdote)
+        anecdotes: state.anecdotes.concat(newAnecdote)
       }))
     },
 
