@@ -32,8 +32,13 @@
     },
     {
       "content": "lisätty anekdootti",
-      "votes": 7,
+      "votes": 11,
       "id": "PEd5nZBiFBg"
+    },
+    {
+      "content": "notifikaatio anekdootti",
+      "votes": 0,
+      "id": "V-6V2J_abWo"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
