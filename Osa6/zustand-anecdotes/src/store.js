@@ -2,14 +2,13 @@
 import { create } from 'zustand'
 import anecdoteService from './services/anecdotes'
 
-const useAnecdoteStore = create((set) => ({
+const useAnecdoteStore = create((set, get) => ({
   anecdotes: [],
   filter: '',
 
   actions: {
     vote: async (id) => {
-      const anecdote = useAnecdoteStore
-        .getState()
+      const anecdote = get()
         .anecdotes
         .find((a) => a.id === id)
 
@@ -71,11 +70,13 @@ export const useAnecdotes = () => {
     (state) => state.filter
   )
 
-  return anecdotes.filter((anecdote) =>
-    anecdote.content
-      .toLowerCase()
-      .includes(filter.toLowerCase())
-  )
+  return anecdotes
+    .filter((anecdote) =>
+      anecdote.content
+        .toLowerCase()
+        .includes(filter.toLowerCase())
+    )
+    .toSorted((a, b) => b.votes - a.votes)
 }
 export const useAnecdoteActions = () => useAnecdoteStore((state) => state.actions)
 export default useAnecdoteStore

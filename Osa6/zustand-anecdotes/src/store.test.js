@@ -55,6 +55,43 @@ describe('anecdote store', () => {
       renderHook(() => useAnecdotes())
 
     expect(anecdotesResult.current)
-      .toEqual(anecdotes)
+      .toEqual(
+        anecdotes.toSorted((a, b) => b.votes - a.votes)
+      )
+  })
+
+  it('returns anecdotes sorted by votes', () => {
+    const anecdotes = [
+      {
+        id: '1',
+        content: 'least votes',
+        votes: 1
+      },
+      {
+        id: '2',
+        content: 'most votes',
+        votes: 10
+      },
+      {
+        id: '3',
+        content: 'middle votes',
+        votes: 5
+      }
+    ]
+
+    useAnecdoteStore.setState({
+      anecdotes,
+      filter: ''
+    })
+
+    const { result } = renderHook(() =>
+      useAnecdotes()
+    )
+
+    expect(result.current).toEqual([
+      anecdotes[1],
+      anecdotes[2],
+      anecdotes[0]
+    ])
   })
 })

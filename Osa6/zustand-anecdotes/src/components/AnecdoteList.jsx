@@ -6,22 +6,18 @@ const AnecdoteList = () => {
   const { vote, remove } = useAnecdoteActions()
   const { setNotification } = useNotificationActions()
 
-  const sortedAnecdotes = anecdotes.toSorted((a, b) => {
-    return b.votes - a.votes
-  })
-
   return (
     <div>
-      {sortedAnecdotes.map((anecdote) => (
+      {anecdotes.map((anecdote) => (
         <div key={anecdote.id}>
           <div>{anecdote.content}</div>
 
-          <div style={{ display: 'flex', gap: '5px' }}>
+          <div style={{ display: 'flex', gap: 5 }}>
             has {anecdote.votes}
 
             <button
-              onClick={() => {
-                vote(anecdote.id)
+              onClick={async() => {
+                await vote(anecdote.id)
                 setNotification(
                   `you voted '${anecdote.content}'`
                 )
@@ -30,8 +26,8 @@ const AnecdoteList = () => {
 
             {anecdote.votes === 0 && (
               <button
-                onClick={() => {
-                  remove(anecdote.id)
+                onClick={async() => {
+                  await remove(anecdote.id)
 
                   setNotification(
                     `you removed '${anecdote.content}'`
