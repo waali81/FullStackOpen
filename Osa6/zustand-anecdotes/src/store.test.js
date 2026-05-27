@@ -94,7 +94,7 @@ describe('anecdote store', () => {
       anecdotes[0]
     ])
   })
-  
+
   it('returns filtered anecdotes', () => {
     const anecdotes = [
       {
@@ -126,5 +126,37 @@ describe('anecdote store', () => {
     expect(result.current).toEqual([
       anecdotes[1]
     ])
+  })
+  
+  it('increments anecdote votes', async () => {
+    const anecdote = {
+      id: '1',
+      content: 'test anecdote',
+      votes: 1
+    }
+
+    useAnecdoteStore.setState({
+      anecdotes: [anecdote],
+      filter: ''
+    })
+
+    anecdoteService.update.mockResolvedValue({
+      ...anecdote,
+      votes: 2
+    })
+
+    const { result } = renderHook(() =>
+      useAnecdoteActions()
+    )
+
+    await act(async () => {
+      await result.current.vote('1')
+    })
+
+    const { result: anecdotesResult } =
+      renderHook(() => useAnecdotes())
+
+    expect(anecdotesResult.current[0].votes)
+      .toBe(2)
   })
 })

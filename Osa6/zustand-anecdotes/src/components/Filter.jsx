@@ -9,6 +9,8 @@ const Filter = () => {
 
   const style = {
     marginBottom: 10,
+    display: 'flex',
+    gap: 5,
   }
 
   return (
