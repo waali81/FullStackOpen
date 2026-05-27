@@ -94,4 +94,37 @@ describe('anecdote store', () => {
       anecdotes[0]
     ])
   })
+  
+  it('returns filtered anecdotes', () => {
+    const anecdotes = [
+      {
+        id: '1',
+        content: 'React is great',
+        votes: 1
+      },
+      {
+        id: '2',
+        content: 'Zustand is simple',
+        votes: 5
+      },
+      {
+        id: '3',
+        content: 'Redux is powerful',
+        votes: 3
+      }
+    ]
+
+    useAnecdoteStore.setState({
+      anecdotes,
+      filter: 'zustand'
+    })
+
+    const { result } = renderHook(() =>
+      useAnecdotes()
+    )
+
+    expect(result.current).toEqual([
+      anecdotes[1]
+    ])
+  })
 })
