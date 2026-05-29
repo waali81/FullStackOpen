@@ -10,7 +10,10 @@ import {
   updateAnecdote,
 } from '../requests'
 
+import useNotification from './useNotification'
+
 export const useAnecdotes = () => {
+  const { showNotification } = useNotification()
   const queryClient = useQueryClient()
 
   const result = useQuery({
@@ -22,10 +25,16 @@ export const useAnecdotes = () => {
 
   const newAnecdoteMutation = useMutation({
     mutationFn: createAnecdote,
-    onSuccess: () => {
+    onSuccess: (newAnecdote) => {
       queryClient.invalidateQueries({
         queryKey: ['anecdotes'],
       })
+      showNotification(
+        `you created '${newAnecdote.content}'`
+      )
+    },
+    onError: (error) => {
+      showNotification(error.message)
     },
   })
 
@@ -49,10 +58,14 @@ export const useAnecdotes = () => {
         votes: 0,
       }),
 
-    voteAnecdote: (anecdote) =>
+    voteAnecdote: (anecdote) => {
       updateAnecdoteMutation.mutate({
         ...anecdote,
         votes: anecdote.votes + 1,
-      }),
+      })
+      showNotification(
+        `you voted '${anecdote.content}'`
+      )
+    },
   }
 }
