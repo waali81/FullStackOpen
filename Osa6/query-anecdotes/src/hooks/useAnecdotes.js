@@ -10,10 +10,10 @@ import {
   updateAnecdote,
 } from '../requests'
 
-import useNotification from './useNotification'
+import useNotify from './useNotify'
 
 export const useAnecdotes = () => {
-  const { showNotification } = useNotification()
+  const { showNotification } = useNotify()
   const queryClient = useQueryClient()
 
   const result = useQuery({
