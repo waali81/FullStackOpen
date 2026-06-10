@@ -13,6 +13,13 @@
       "info": "http://wiki.c2.com/?PrematureOptimization",
       "votes": 0,
       "id": "2"
+    },
+    {
+      "content": "ytutyutyu",
+      "author": "tyutyutyu",
+      "info": "tyutyuty",
+      "votes": 0,
+      "id": "WILRGZUZQMM"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
