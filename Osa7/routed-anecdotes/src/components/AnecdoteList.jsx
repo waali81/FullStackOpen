@@ -1,4 +1,4 @@
-import { useAnecdotes } from '../hooks'
+import { useAnecdotes } from '../contexts/useAnecdotes'
 
 const AnecdoteList = () => {
   const {
