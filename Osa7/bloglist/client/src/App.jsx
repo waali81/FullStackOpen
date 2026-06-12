@@ -21,6 +21,7 @@ import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 import BlogView from './components/BlogView'
 import LoginForm from './components/LoginForm'
+import ErrorBoundary from './components/ErrorBoundary'
 
 const App = () => {
   const navigate = useNavigate()
@@ -197,76 +198,77 @@ const App = () => {
         message={notification?.message}
         type={notification?.type}
       />
+      <ErrorBoundary>
+        {/* ROUTES */}
+        <Routes>
 
-      {/* ROUTES */}
-      <Routes>
-
-        {/* BLOG VIEW */}
-        <Route
-          path="/blogs/:id"
-          element={
-            <BlogView
-              blog={blog}
-              handleLike={handleLike}
-              handleDelete={handleDelete}
-              user={user}
-            />
-          }
-        />
-
-        {/* CREATE BLOG */}
-        <Route
-          path="/create"
-          element={
-            user ? (
-              <BlogForm
-                createBlog={handleCreateBlog}
-                showNotification={showNotification}
+          {/* BLOG VIEW */}
+          <Route
+            path="/blogs/:id"
+            element={
+              <BlogView
+                blog={blog}
+                handleLike={handleLike}
+                handleDelete={handleDelete}
+                user={user}
               />
-            ) : (
-              <div>not authorized</div>
-            )
-          }
-        />
+            }
+          />
 
-        {/* LOGIN */}
-        <Route
-          path="/login"
-          element={
-            <LoginForm
-              handleLogin={handleLogin}
-              username={username}
-              password={password}
-              setUsername={setUsername}
-              setPassword={setPassword}
-            />
-          }
-        />
+          {/* CREATE BLOG */}
+          <Route
+            path="/create"
+            element={
+              user ? (
+                <BlogForm
+                  createBlog={handleCreateBlog}
+                  showNotification={showNotification}
+                />
+              ) : (
+                <div>not authorized</div>
+              )
+            }
+          />
 
-        {/* BLOG LIST */}
-        <Route
-          path="/"
-          element={
-            <div>
-              <h2>blogs</h2>
-              <ul>
-                {[...blogs]
-                  .sort((a, b) => b.likes - a.likes)
-                  .map(blog => (
-                    <li key={blog.id}>
-                      <Blog
-                        blog={blog}
-                        user={user}
-                        handleLike={handleLike}
-                        handleDelete={handleDelete}
-                      />
-                    </li>
-                  ))}
-              </ul>
-            </div>
-          }
-        />
-      </Routes>
+          {/* LOGIN */}
+          <Route
+            path="/login"
+            element={
+              <LoginForm
+                handleLogin={handleLogin}
+                username={username}
+                password={password}
+                setUsername={setUsername}
+                setPassword={setPassword}
+              />
+            }
+          />
+
+          {/* BLOG LIST */}
+          <Route
+            path="/"
+            element={
+              <div>
+                <h2>blogs</h2>
+                <ul>
+                  {[...blogs]
+                    .sort((a, b) => b.likes - a.likes)
+                    .map(blog => (
+                      <li key={blog.id}>
+                        <Blog
+                          blog={blog}
+                          user={user}
+                          handleLike={handleLike}
+                          handleDelete={handleDelete}
+                        />
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            }
+          />
+        </Routes>
+      </ErrorBoundary>
     </div>
   )
 }
