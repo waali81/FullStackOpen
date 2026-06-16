@@ -22,6 +22,7 @@ import BlogForm from './components/BlogForm'
 import BlogView from './components/BlogView'
 import LoginForm from './components/LoginForm'
 import ErrorBoundary from './components/ErrorBoundary'
+import NotFound from './components/NotFound'
 
 const App = () => {
   const navigate = useNavigate()
@@ -266,6 +267,10 @@ const App = () => {
                 </ul>
               </div>
             }
+          />
+          <Route
+            path="*"
+            element={<NotFound />}
           />
         </Routes>
       </ErrorBoundary>
