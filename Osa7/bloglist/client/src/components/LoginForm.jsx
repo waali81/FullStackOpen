@@ -19,6 +19,7 @@ const LoginForm = ({
           label="username"
           margin="normal"
           value={username}
+          autoComplete="username"
           onChange={(e) => setUsername(e.target.value)}
         />
 
@@ -28,6 +29,7 @@ const LoginForm = ({
           label="password"
           margin="normal"
           value={password}
+          autoComplete="current-password"
           onChange={(e) => setPassword(e.target.value)}
         />
 
