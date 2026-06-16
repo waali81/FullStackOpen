@@ -21,16 +21,13 @@ describe('user creation', () => {
       password: 'secret'
     }
 
-    await api
-      .post('/api/users')
-      .send(newUser)
-      .expect(201)
+    await api.post('/api/users').send(newUser).expect(201)
 
     const usersAtEnd = await helper.usersInDb()
 
     assert.strictEqual(usersAtEnd.length, 1)
 
-    const usernames = usersAtEnd.map(u => u.username)
+    const usernames = usersAtEnd.map((u) => u.username)
     assert(usernames.includes('testuser'))
   })
 
@@ -43,10 +40,7 @@ describe('user creation', () => {
 
     const usersAtStart = await helper.usersInDb()
 
-    await api
-      .post('/api/users')
-      .send(newUser)
-      .expect(400)
+    await api.post('/api/users').send(newUser).expect(400)
 
     const usersAtEnd = await helper.usersInDb()
 
@@ -61,10 +55,7 @@ describe('user creation', () => {
 
     const usersAtStart = await helper.usersInDb()
 
-    await api
-      .post('/api/users')
-      .send(newUser)
-      .expect(400)
+    await api.post('/api/users').send(newUser).expect(400)
 
     const usersAtEnd = await helper.usersInDb()
 
@@ -80,10 +71,7 @@ describe('user creation', () => {
 
     const usersAtStart = await helper.usersInDb()
 
-    await api
-      .post('/api/users')
-      .send(newUser)
-      .expect(400)
+    await api.post('/api/users').send(newUser).expect(400)
 
     const usersAtEnd = await helper.usersInDb()
 
@@ -101,10 +89,7 @@ describe('user creation', () => {
 
     const usersAtStart = await helper.usersInDb()
 
-    await api
-      .post('/api/users')
-      .send(user)
-      .expect(400)
+    await api.post('/api/users').send(user).expect(400)
 
     const usersAtEnd = await helper.usersInDb()
 

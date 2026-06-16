@@ -19,27 +19,28 @@ beforeEach(async () => {
   const user = new User({
     username: 'testuser',
     passwordHash,
-    name: 'Test User',
+    name: 'Test User'
   })
 
   await user.save()
 
   // 🔐 login → token
-  const result = await api
-    .post('/api/login')
-    .send({
-      username: 'testuser',
-      password: 'password'
-    })
+  const result = await api.post('/api/login').send({
+    username: 'testuser',
+    password: 'password'
+  })
 
   token = result.body.token
 
-  const blogObjects = helper.initialBlogs.map(blog => new Blog({
-    ...blog,
-    user: user._id
-  }))
+  const blogObjects = helper.initialBlogs.map(
+    (blog) =>
+      new Blog({
+        ...blog,
+        user: user._id
+      })
+  )
 
-  await Promise.all(blogObjects.map(blog => blog.save()))
+  await Promise.all(blogObjects.map((blog) => blog.save()))
 })
 
 describe('when there are blogs in db', () => {
@@ -72,7 +73,7 @@ describe('addition of new blog', () => {
       title: 'Async testing blog',
       author: 'Tester',
       url: 'http://example.com/test',
-      likes: 10,
+      likes: 10
     }
 
     await api
@@ -84,12 +85,9 @@ describe('addition of new blog', () => {
 
     const blogsAtEnd = await helper.blogsInDb()
 
-    assert.strictEqual(
-      blogsAtEnd.length,
-      helper.initialBlogs.length + 1
-    )
+    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1)
 
-    const titles = blogsAtEnd.map(b => b.title)
+    const titles = blogsAtEnd.map((b) => b.title)
     assert(titles.includes('Async testing blog'))
   })
 })
@@ -99,7 +97,7 @@ describe('blog validation', () => {
     const newBlog = {
       title: 'Blog without likes',
       author: 'Tester',
-      url: 'http://example.com',
+      url: 'http://example.com'
     }
 
     await api
@@ -110,9 +108,7 @@ describe('blog validation', () => {
 
     const blogsAtEnd = await helper.blogsInDb()
 
-    const addedBlog = blogsAtEnd.find(
-      b => b.title === 'Blog without likes'
-    )
+    const addedBlog = blogsAtEnd.find((b) => b.title === 'Blog without likes')
 
     assert.strictEqual(addedBlog.likes, 0)
   })
@@ -160,7 +156,7 @@ describe('deleting a blog', () => {
 
     const blogsAtEnd = await helper.blogsInDb()
 
-    const titles = blogsAtEnd.map(b => b.title)
+    const titles = blogsAtEnd.map((b) => b.title)
 
     assert(!titles.includes(blogToDelete.title))
   })
@@ -182,12 +178,9 @@ describe('updating blog', () => {
       .expect('Content-Type', /application\/json/)
 
     const blogsAtEnd = await helper.blogsInDb()
-    const updatedBlog = blogsAtEnd.find(b => b.id === blogToUpdate.id)
+    const updatedBlog = blogsAtEnd.find((b) => b.id === blogToUpdate.id)
 
-    assert.strictEqual(
-      updatedBlog.likes,
-      blogToUpdate.likes + 1
-    )
+    assert.strictEqual(updatedBlog.likes, blogToUpdate.likes + 1)
   })
 })
 

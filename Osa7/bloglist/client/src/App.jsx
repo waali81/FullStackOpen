@@ -1,18 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
-import {
-  Routes,
-  Route,
-  Link,
-  useNavigate,
-  useMatch
-} from 'react-router-dom'
-import {
-  AppBar,
-  Toolbar,
-  Button,
-  Container,
-  Typography
-} from '@mui/material'
+import { Routes, Route, Link, useNavigate, useMatch } from 'react-router-dom'
+import { AppBar, Toolbar, Button, Container, Typography } from '@mui/material'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -35,9 +23,7 @@ const App = () => {
 
   // hae blogit
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )
+    blogService.getAll().then((blogs) => setBlogs(blogs))
   }, [])
 
   // käyttäjän haku localstoragesta
@@ -71,10 +57,7 @@ const App = () => {
       })
 
       // tallennus localstorageen
-      window.localStorage.setItem(
-        'loggedBlogappUser',
-        JSON.stringify(user)
-      )
+      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
 
       blogService.setToken(user.token)
 
@@ -99,7 +82,7 @@ const App = () => {
     const createdBlog = await blogService.create(blogObject)
 
     // viimeisin blogi listan loppuun
-    setBlogs(prev => prev.concat(createdBlog))
+    setBlogs((prev) => prev.concat(createdBlog))
 
     showNotification(
       `a new blog '${createdBlog.title}' by ${createdBlog.author} added`,
@@ -123,18 +106,12 @@ const App = () => {
 
     const returnedBlog = await blogService.update(blog.id, updatedBlog)
 
-    setBlogs(prev =>
-      prev.map(b =>
-        b.id === blog.id ? returnedBlog : b
-      )
-    )
+    setBlogs((prev) => prev.map((b) => (b.id === blog.id ? returnedBlog : b)))
   }
 
   // delete handler
   const handleDelete = async (blog) => {
-    const ok = window.confirm(
-      `Remove blog "${blog.title}" by ${blog.author}?`
-    )
+    const ok = window.confirm(`Remove blog "${blog.title}" by ${blog.author}?`)
 
     if (!ok) {
       return
@@ -142,28 +119,20 @@ const App = () => {
 
     await blogService.remove(blog.id)
 
-    setBlogs(prev =>
-      prev.filter(b => b.id !== blog.id)
-    )
+    setBlogs((prev) => prev.filter((b) => b.id !== blog.id))
 
     navigate('/')
   }
 
   const match = useMatch('/blogs/:id')
 
-  const blog = match
-    ? blogs.find(
-      b => b.id === match.params.id
-    )
-    : null
+  const blog = match ? blogs.find((b) => b.id === match.params.id) : null
 
   return (
     <div>
-
       {/* NAVIGATION */}
       <AppBar position="static">
         <Toolbar>
-
           {/* vasen puoli: otsikko */}
           <Typography variant="h4" sx={{ flexGrow: 1 }}>
             Blog App
@@ -191,18 +160,13 @@ const App = () => {
               logout
             </Button>
           )}
-
         </Toolbar>
       </AppBar>
 
-      <Notification
-        message={notification?.message}
-        type={notification?.type}
-      />
+      <Notification message={notification?.message} type={notification?.type} />
       <ErrorBoundary>
         {/* ROUTES */}
         <Routes>
-
           {/* BLOG VIEW */}
           <Route
             path="/blogs/:id"
@@ -254,7 +218,7 @@ const App = () => {
                 <ul>
                   {[...blogs]
                     .sort((a, b) => b.likes - a.likes)
-                    .map(blog => (
+                    .map((blog) => (
                       <li key={blog.id}>
                         <Blog
                           blog={blog}
@@ -268,10 +232,7 @@ const App = () => {
               </div>
             }
           />
-          <Route
-            path="*"
-            element={<NotFound />}
-          />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </ErrorBoundary>
     </div>

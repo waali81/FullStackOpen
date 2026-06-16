@@ -31,12 +31,7 @@ const LoginForm = ({
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <Button
-          fullWidth
-          variant="contained"
-          type="submit"
-          sx={{ mt: 2 }}
-        >
+        <Button fullWidth variant="contained" type="submit" sx={{ mt: 2 }}>
           login
         </Button>
       </form>

@@ -56,12 +56,7 @@ const BlogForm = ({ createBlog, showNotification }) => {
           onChange={(e) => setNewUrl(e.target.value)}
         />
 
-        <Button
-          fullWidth
-          variant="contained"
-          type="submit"
-          sx={{ mt: 2 }}
-        >
+        <Button fullWidth variant="contained" type="submit" sx={{ mt: 2 }}>
           create
         </Button>
       </form>

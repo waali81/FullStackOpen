@@ -1,26 +1,23 @@
 import { Card, CardContent, Typography, Button, Box, Link } from '@mui/material'
 
-const BlogView = ({
-  blog,
-  handleLike,
-  handleDelete,
-  user
-}) => {
-
+const BlogView = ({ blog, handleLike, handleDelete, user }) => {
   if (!blog) {
     return null
   }
   return (
     <Card sx={{ maxWidth: 600, margin: '20px auto', p: 2 }}>
       <CardContent>
-
         {/* TITLE */}
         <Typography variant="h3" gutterBottom>
           {blog.title}
         </Typography>
 
         {/* AUTHOR */}
-        <Typography variant="h5" gutterBottom sx={{ fontStyle: 'italic', color: 'text.secondary' }}>
+        <Typography
+          variant="h5"
+          gutterBottom
+          sx={{ fontStyle: 'italic', color: 'text.secondary' }}
+        >
           by {blog.author}
         </Typography>
 
@@ -32,18 +29,18 @@ const BlogView = ({
         </Typography>
 
         {/* USER */}
-        <Typography sx={{ mb: 2 }}>
-          added by {blog.user?.name}
-        </Typography>
+        <Typography sx={{ mb: 2 }}>added by {blog.user?.name}</Typography>
 
         {/* LIKES */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
-          <Typography>
-            likes {blog.likes}
-          </Typography>
+          <Typography>likes {blog.likes}</Typography>
 
           {user && (
-            <Button variant="contained" size="small" onClick={() => handleLike(blog)}>
+            <Button
+              variant="contained"
+              size="small"
+              onClick={() => handleLike(blog)}
+            >
               like
             </Button>
           )}
@@ -59,7 +56,6 @@ const BlogView = ({
             </Button>
           )}
         </Box>
-
       </CardContent>
     </Card>
   )

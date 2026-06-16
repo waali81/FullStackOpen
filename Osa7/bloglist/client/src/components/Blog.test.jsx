@@ -16,16 +16,10 @@ const blog = {
 }
 
 describe('<BlogView />', () => {
-
   test('shows title, author, url and likes', () => {
     const user = null
 
-    render(
-      <BlogView
-        blog={blog}
-        user={user}
-      />
-    )
+    render(<BlogView blog={blog} user={user} />)
 
     expect(screen.getByText('React patterns')).toBeVisible()
     expect(screen.getByText(/Michael Chan/)).toBeVisible()
@@ -38,24 +32,14 @@ describe('<BlogView />', () => {
       username: 'someoneelse'
     }
 
-    render(
-      <BlogView
-        blog={blog}
-        user={user}
-      />
-    )
+    render(<BlogView blog={blog} user={user} />)
 
     expect(screen.getByText('like')).toBeVisible()
     expect(screen.queryByText('remove')).toBeNull()
   })
 
   test('like button is not shown for logged out user', () => {
-    render(
-      <BlogView
-        blog={blog}
-        user={null}
-      />
-    )
+    render(<BlogView blog={blog} user={null} />)
 
     expect(screen.queryByText('like')).toBeNull()
   })
@@ -69,21 +53,11 @@ describe('<BlogView />', () => {
       username: 'someoneelse'
     }
 
-    const { rerender } = render(
-      <BlogView
-        blog={blog}
-        user={ownerUser}
-      />
-    )
+    const { rerender } = render(<BlogView blog={blog} user={ownerUser} />)
 
     expect(screen.getByText('remove')).toBeVisible()
 
-    rerender(
-      <BlogView
-        blog={blog}
-        user={anotherUser}
-      />
-    )
+    rerender(<BlogView blog={blog} user={anotherUser} />)
 
     expect(screen.queryByText('remove')).toBeNull()
   })
@@ -92,13 +66,7 @@ describe('<BlogView />', () => {
     const user = { username: 'twaali' }
     const mockHandler = vi.fn()
 
-    render(
-      <BlogView
-        blog={blog}
-        user={user}
-        handleLike={mockHandler}
-      />
-    )
+    render(<BlogView blog={blog} user={user} handleLike={mockHandler} />)
 
     const userEventSetup = userEvent.setup()
     const button = screen.getByText('like')
@@ -111,7 +79,6 @@ describe('<BlogView />', () => {
 })
 
 describe('<BlogForm />', () => {
-
   test('<BlogForm /> calls createBlog with correct data', async () => {
     const user = userEvent.setup()
     const createBlog = vi.fn()

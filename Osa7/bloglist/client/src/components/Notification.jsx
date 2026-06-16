@@ -5,9 +5,7 @@ const Notification = ({ message, type }) => {
 
   return (
     <Box sx={{ mt: 2 }}>
-      <Alert severity={type}>
-        {message}
-      </Alert>
+      <Alert severity={type}>{message}</Alert>
     </Box>
   )
 }
