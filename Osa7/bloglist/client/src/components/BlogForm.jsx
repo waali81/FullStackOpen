@@ -1,7 +1,11 @@
 import { useState } from 'react'
 import { TextField, Button, Box, Typography } from '@mui/material'
+import useNotificationStore from '../stores/notificationStore'
 
-const BlogForm = ({ createBlog, showNotification }) => {
+const BlogForm = ({ createBlog }) => {
+  const showNotification = useNotificationStore(
+    (state) => state.showNotification
+  )
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')

@@ -11,6 +11,7 @@ import BlogView from './components/BlogView'
 import LoginForm from './components/LoginForm'
 import ErrorBoundary from './components/ErrorBoundary'
 import NotFound from './components/NotFound'
+import useNotificationStore from './stores/notificationStore'
 
 const App = () => {
   const navigate = useNavigate()
@@ -18,8 +19,10 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [notification, setNotification] = useState(null)
   const blogFormRef = useRef()
+  const showNotification = useNotificationStore(
+    (state) => state.showNotification
+  )
 
   // hae blogit
   useEffect(() => {
@@ -36,15 +39,6 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-
-  // notifikaation näyttäminen
-  const showNotification = (message, type = 'success') => {
-    setNotification({ message, type })
-
-    setTimeout(() => {
-      setNotification(null)
-    }, 5000)
-  }
 
   // login handler
   const handleLogin = async (event) => {
@@ -163,7 +157,7 @@ const App = () => {
         </Toolbar>
       </AppBar>
 
-      <Notification message={notification?.message} type={notification?.type} />
+      <Notification />
       <ErrorBoundary>
         {/* ROUTES */}
         <Routes>
@@ -185,10 +179,7 @@ const App = () => {
             path="/create"
             element={
               user ? (
-                <BlogForm
-                  createBlog={handleCreateBlog}
-                  showNotification={showNotification}
-                />
+                <BlogForm createBlog={handleCreateBlog} />
               ) : (
                 <div>not authorized</div>
               )
