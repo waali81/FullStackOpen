@@ -12,10 +12,10 @@ import LoginForm from './components/LoginForm'
 import ErrorBoundary from './components/ErrorBoundary'
 import NotFound from './components/NotFound'
 import useNotificationStore from './stores/notificationStore'
+import useBlogStore from './stores/blogStore'
 
 const App = () => {
   const navigate = useNavigate()
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -23,11 +23,16 @@ const App = () => {
   const showNotification = useNotificationStore(
     (state) => state.showNotification
   )
+  const blogs = useBlogStore((state) => state.blogs)
+  const fetchBlogs = useBlogStore((state) => state.fetchBlogs)
+  const createBlog = useBlogStore((state) => state.createBlog)
+  const likeBlog = useBlogStore((state) => state.likeBlog)
+  const deleteBlog = useBlogStore((state) => state.deleteBlog)
 
   // hae blogit
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [])
+    fetchBlogs()
+  }, [fetchBlogs])
 
   // käyttäjän haku localstoragesta
   useEffect(() => {
@@ -73,10 +78,7 @@ const App = () => {
 
   // blogin luonti handler
   const handleCreateBlog = async (blogObject) => {
-    const createdBlog = await blogService.create(blogObject)
-
-    // viimeisin blogi listan loppuun
-    setBlogs((prev) => prev.concat(createdBlog))
+    const createdBlog = await createBlog(blogObject)
 
     showNotification(
       `a new blog '${createdBlog.title}' by ${createdBlog.author} added`,
@@ -90,17 +92,7 @@ const App = () => {
 
   // like handler
   const handleLike = async (blog) => {
-    const updatedBlog = {
-      user: blog.user.id,
-      likes: blog.likes + 1,
-      author: blog.author,
-      title: blog.title,
-      url: blog.url
-    }
-
-    const returnedBlog = await blogService.update(blog.id, updatedBlog)
-
-    setBlogs((prev) => prev.map((b) => (b.id === blog.id ? returnedBlog : b)))
+    await likeBlog(blog)
   }
 
   // delete handler
@@ -111,9 +103,7 @@ const App = () => {
       return
     }
 
-    await blogService.remove(blog.id)
-
-    setBlogs((prev) => prev.filter((b) => b.id !== blog.id))
+    await deleteBlog(blog)
 
     navigate('/')
   }
