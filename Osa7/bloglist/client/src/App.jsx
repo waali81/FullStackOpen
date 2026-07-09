@@ -13,12 +13,15 @@ import ErrorBoundary from './components/ErrorBoundary'
 import NotFound from './components/NotFound'
 import useNotificationStore from './stores/notificationStore'
 import useBlogStore from './stores/blogStore'
+import useUserStore from './stores/userStore'
 
 const App = () => {
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
+  const user = useUserStore((state) => state.user)
+  const setUser = useUserStore((state) => state.setUser)
+  const logout = useUserStore((state) => state.logout)
   const blogFormRef = useRef()
   const showNotification = useNotificationStore(
     (state) => state.showNotification
@@ -43,7 +46,7 @@ const App = () => {
       setUser(user)
       blogService.setToken(user.token)
     }
-  }, [])
+  }, [setUser])
 
   // login handler
   const handleLogin = async (event) => {
@@ -72,7 +75,7 @@ const App = () => {
   // logout handler
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
-    setUser(null)
+    logout()
     navigate('/')
   }
 
@@ -159,7 +162,6 @@ const App = () => {
                 blog={blog}
                 handleLike={handleLike}
                 handleDelete={handleDelete}
-                user={user}
               />
             }
           />
