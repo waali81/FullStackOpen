@@ -1,7 +1,7 @@
 import { Card, CardContent, Typography, Button, Box, Link } from '@mui/material'
 import useUserStore from '../stores/userStore'
 
-const BlogView = ({ blog, handleLike, handleDelete /* user */ }) => {
+const BlogView = ({ blog, handleLike, handleDelete }) => {
   const user = useUserStore((state) => state.user)
   if (!blog) {
     return null
