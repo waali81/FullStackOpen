@@ -1,12 +1,6 @@
 import { TextField, Button, Box, Typography } from '@mui/material'
 
-const LoginForm = ({
-  handleLogin,
-  username,
-  password,
-  setUsername,
-  setPassword
-}) => {
+const LoginForm = ({ handleLogin, username, password }) => {
   return (
     <Box sx={{ maxWidth: 300, margin: '0 auto', mt: 4 }}>
       <Typography variant="h5" gutterBottom>
@@ -18,19 +12,16 @@ const LoginForm = ({
           fullWidth
           label="username"
           margin="normal"
-          value={username}
           autoComplete="username"
-          onChange={(e) => setUsername(e.target.value)}
+          {...username.inputProps}
         />
 
         <TextField
           fullWidth
-          type="password"
           label="password"
           margin="normal"
-          value={password}
           autoComplete="current-password"
-          onChange={(e) => setPassword(e.target.value)}
+          {...password.inputProps}
         />
 
         <Button fullWidth variant="contained" type="submit" sx={{ mt: 2 }}>

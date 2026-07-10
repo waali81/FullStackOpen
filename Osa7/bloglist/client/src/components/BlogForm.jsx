@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import useField from '../hooks/useField'
 import { TextField, Button, Box, Typography } from '@mui/material'
 import useNotificationStore from '../stores/notificationStore'
 
@@ -6,27 +6,30 @@ const BlogForm = ({ createBlog }) => {
   const showNotification = useNotificationStore(
     (state) => state.showNotification
   )
-  const [newTitle, setNewTitle] = useState('')
-  const [newAuthor, setNewAuthor] = useState('')
-  const [newUrl, setNewUrl] = useState('')
+  const title = useField('text')
+  const author = useField('text')
+  const url = useField('text')
 
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    if (newTitle.trim() === '' || newUrl.trim() === '') {
+    if (
+      title.inputProps.value.trim() === '' ||
+      url.inputProps.value.trim() === ''
+    ) {
       showNotification('title and url are required', 'error')
       return
     }
 
     await createBlog({
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl
+      title: title.inputProps.value,
+      author: author.inputProps.value,
+      url: url.inputProps.value
     })
 
-    setNewTitle('')
-    setNewAuthor('')
-    setNewUrl('')
+    title.reset()
+    author.reset()
+    url.reset()
   }
 
   return (
@@ -40,25 +43,17 @@ const BlogForm = ({ createBlog }) => {
           fullWidth
           label="title"
           margin="normal"
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
+          {...title.inputProps}
         />
 
         <TextField
           fullWidth
           label="author"
           margin="normal"
-          value={newAuthor}
-          onChange={(e) => setNewAuthor(e.target.value)}
+          {...author.inputProps}
         />
 
-        <TextField
-          fullWidth
-          label="url"
-          margin="normal"
-          value={newUrl}
-          onChange={(e) => setNewUrl(e.target.value)}
-        />
+        <TextField fullWidth label="url" margin="normal" {...url.inputProps} />
 
         <Button fullWidth variant="contained" type="submit" sx={{ mt: 2 }}>
           create

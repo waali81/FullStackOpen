@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Routes, Route, Link, useNavigate, useMatch } from 'react-router-dom'
 import { AppBar, Toolbar, Button, Container, Typography } from '@mui/material'
 import Blog from './components/Blog'
@@ -14,11 +14,13 @@ import NotFound from './components/NotFound'
 import useNotificationStore from './stores/notificationStore'
 import useBlogStore from './stores/blogStore'
 import useUserStore from './stores/userStore'
+import persistentUser from './services/persistentUser'
+import useField from './hooks/useField'
 
 const App = () => {
   const navigate = useNavigate()
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const username = useField('text')
+  const password = useField('password')
   const user = useUserStore((state) => state.user)
   const setUser = useUserStore((state) => state.setUser)
   const logout = useUserStore((state) => state.logout)
@@ -39,10 +41,9 @@ const App = () => {
 
   // käyttäjän haku localstoragesta
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    const user = persistentUser.getUser()
 
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
+    if (user) {
       setUser(user)
       blogService.setToken(user.token)
     }
@@ -54,27 +55,28 @@ const App = () => {
 
     try {
       const user = await loginService.login({
-        username,
-        password
+        username: username.inputProps.value,
+        password: password.inputProps.value
       })
 
       // tallennus localstorageen
-      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+      persistentUser.saveUser(user)
 
       blogService.setToken(user.token)
 
       setUser(user)
-      setUsername('')
-      setPassword('')
       navigate('/')
     } catch {
       showNotification('wrong username/password', 'error')
+    } finally {
+      username.reset()
+      password.reset()
     }
   }
 
   // logout handler
   const handleLogout = () => {
-    window.localStorage.removeItem('loggedBlogappUser')
+    persistentUser.removeUser()
     logout()
     navigate('/')
   }
@@ -186,8 +188,6 @@ const App = () => {
                 handleLogin={handleLogin}
                 username={username}
                 password={password}
-                setUsername={setUsername}
-                setPassword={setPassword}
               />
             }
           />
