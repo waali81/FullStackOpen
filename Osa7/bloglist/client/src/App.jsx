@@ -17,6 +17,8 @@ import useUserStore from './stores/userStore'
 import persistentUser from './services/persistentUser'
 import useField from './hooks/useField'
 import Users from './components/Users'
+import UserView from './components/UserView'
+import useUsersStore from './stores/usersStore'
 
 const App = () => {
   const navigate = useNavigate()
@@ -34,6 +36,7 @@ const App = () => {
   const createBlog = useBlogStore((state) => state.createBlog)
   const likeBlog = useBlogStore((state) => state.likeBlog)
   const deleteBlog = useBlogStore((state) => state.deleteBlog)
+  const users = useUsersStore((state) => state.users)
 
   // hae blogit
   useEffect(() => {
@@ -113,10 +116,15 @@ const App = () => {
 
     navigate('/')
   }
+  const blogMatch = useMatch('/blogs/:id')
+  const blog = blogMatch
+    ? blogs.find((b) => b.id === blogMatch.params.id)
+    : null
 
-  const match = useMatch('/blogs/:id')
-
-  const blog = match ? blogs.find((b) => b.id === match.params.id) : null
+  const userMatch = useMatch('/users/:id')
+  const selectedUser = userMatch
+    ? users.find((u) => u.id === userMatch.params.id)
+    : null
 
   return (
     <div>
@@ -196,6 +204,8 @@ const App = () => {
               />
             }
           />
+
+          <Route path="/users/:id" element={<UserView user={selectedUser} />} />
 
           <Route path="/users" element={<Users />} />
 
