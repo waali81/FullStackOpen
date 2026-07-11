@@ -16,6 +16,7 @@ import useBlogStore from './stores/blogStore'
 import useUserStore from './stores/userStore'
 import persistentUser from './services/persistentUser'
 import useField from './hooks/useField'
+import Users from './components/Users'
 
 const App = () => {
   const navigate = useNavigate()
@@ -132,6 +133,10 @@ const App = () => {
             blogs
           </Button>
 
+          <Button color="inherit" component={Link} to="/users">
+            users
+          </Button>
+
           {user && (
             <Button color="inherit" component={Link} to="/create">
               create blog
@@ -191,6 +196,8 @@ const App = () => {
               />
             }
           />
+
+          <Route path="/users" element={<Users />} />
 
           {/* BLOG LIST */}
           <Route
