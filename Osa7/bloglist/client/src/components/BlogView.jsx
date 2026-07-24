@@ -58,6 +58,15 @@ const BlogView = ({ blog, handleLike, handleDelete }) => {
             </Button>
           )}
         </Box>
+        <Typography variant="h6" sx={{ mt: 3 }}>
+          Comments
+        </Typography>
+
+        <ul>
+          {blog.comments?.map((comment, index) => (
+            <li key={index}>{comment}</li>
+          ))}
+        </ul>
       </CardContent>
     </Card>
   )
