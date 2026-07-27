@@ -1,4 +1,5 @@
-import { Typography, List, ListItem, ListItemText } from '@mui/material'
+import { Link as RouterLink } from 'react-router-dom'
+import { Typography, Card, CardContent, Divider, Link } from '@mui/material'
 
 const UserView = ({ user }) => {
   if (!user) {
@@ -15,11 +16,25 @@ const UserView = ({ user }) => {
         Added blogs
       </Typography>
 
-      <ul>
-        {user.blogs.map((blog) => (
-          <li key={blog.id}>{blog.title}</li>
-        ))}
-      </ul>
+      <Card sx={{ maxWidth: 500 }}>
+        <CardContent sx={{ p: 0 }}>
+          {user.blogs.map((blog, index) => (
+            <div key={blog.id}>
+              <Typography sx={{ py: 1.5, px: 2 }}>
+                <Link
+                  component={RouterLink}
+                  to={`/blogs/${blog.id}`}
+                  underline="hover"
+                >
+                  {blog.title}
+                </Link>
+              </Typography>
+
+              {index < user.blogs.length - 1 && <Divider />}
+            </div>
+          ))}
+        </CardContent>
+      </Card>
     </>
   )
 }

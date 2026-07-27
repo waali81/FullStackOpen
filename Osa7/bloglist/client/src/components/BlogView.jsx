@@ -1,4 +1,12 @@
-import { Card, CardContent, Typography, Button, Box, Link } from '@mui/material'
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Box,
+  Link,
+  TextField
+} from '@mui/material'
 import useUserStore from '../stores/userStore'
 import { useState } from 'react'
 
@@ -61,6 +69,10 @@ const BlogView = ({ blog, handleLike, handleDelete, handleAddComment }) => {
           )}
         </Box>
 
+        <Typography variant="h6" sx={{ mt: 3 }}>
+          Comments
+        </Typography>
+
         <form
           onSubmit={(e) => {
             e.preventDefault()
@@ -71,18 +83,32 @@ const BlogView = ({ blog, handleLike, handleDelete, handleAddComment }) => {
             setComment('')
           }}
         >
-          <input
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            placeholder="Write a comment"
-          />
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'strech',
+              gap: 2,
+              mt: 1,
+              maxWidth: 450
+            }}
+          >
+            <TextField
+              size="small"
+              fullWidth
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              label="Add a comment"
+            />
 
-          <button type="submit">add comment</button>
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{ whiteSpace: 'nowrap', px: 5 }}
+            >
+              add comment
+            </Button>
+          </Box>
         </form>
-
-        <Typography variant="h6" sx={{ mt: 3 }}>
-          Comments
-        </Typography>
 
         <ul>
           {blog.comments?.map((comment, index) => (

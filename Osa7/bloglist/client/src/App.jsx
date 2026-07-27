@@ -1,6 +1,14 @@
 import { useEffect, useRef } from 'react'
 import { Routes, Route, Link, useNavigate, useMatch } from 'react-router-dom'
-import { AppBar, Toolbar, Button, Container, Typography } from '@mui/material'
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  Container,
+  Typography,
+  Card,
+  CardContent
+} from '@mui/material'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -19,6 +27,7 @@ import useField from './hooks/useField'
 import Users from './components/Users'
 import UserView from './components/UserView'
 import useUsersStore from './stores/usersStore'
+import Blogs from './components/Blogs'
 
 const App = () => {
   const navigate = useNavigate()
@@ -217,28 +226,8 @@ const App = () => {
           <Route path="/users" element={<Users />} />
 
           {/* BLOG LIST */}
-          <Route
-            path="/"
-            element={
-              <div>
-                <h2>blogs</h2>
-                <ul>
-                  {[...blogs]
-                    .sort((a, b) => b.likes - a.likes)
-                    .map((blog) => (
-                      <li key={blog.id}>
-                        <Blog
-                          blog={blog}
-                          user={user}
-                          handleLike={handleLike}
-                          handleDelete={handleDelete}
-                        />
-                      </li>
-                    ))}
-                </ul>
-              </div>
-            }
-          />
+          <Route path="/" element={<Blogs blogs={blogs} />} />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </ErrorBoundary>
