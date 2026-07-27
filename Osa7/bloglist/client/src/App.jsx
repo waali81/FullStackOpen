@@ -37,6 +37,7 @@ const App = () => {
   const likeBlog = useBlogStore((state) => state.likeBlog)
   const deleteBlog = useBlogStore((state) => state.deleteBlog)
   const users = useUsersStore((state) => state.users)
+  const addComment = useBlogStore((state) => state.addComment)
 
   // hae blogit
   useEffect(() => {
@@ -83,6 +84,11 @@ const App = () => {
     persistentUser.removeUser()
     logout()
     navigate('/')
+  }
+
+  // comment handler
+  const handleAddComment = async (id, comment) => {
+    await addComment(id, comment)
   }
 
   // blogin luonti handler
@@ -177,6 +183,7 @@ const App = () => {
                 blog={blog}
                 handleLike={handleLike}
                 handleDelete={handleDelete}
+                handleAddComment={handleAddComment}
               />
             }
           />

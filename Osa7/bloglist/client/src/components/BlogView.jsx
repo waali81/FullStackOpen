@@ -1,7 +1,9 @@
 import { Card, CardContent, Typography, Button, Box, Link } from '@mui/material'
 import useUserStore from '../stores/userStore'
+import { useState } from 'react'
 
-const BlogView = ({ blog, handleLike, handleDelete }) => {
+const BlogView = ({ blog, handleLike, handleDelete, handleAddComment }) => {
+  const [comment, setComment] = useState('')
   const user = useUserStore((state) => state.user)
   if (!blog) {
     return null
@@ -58,6 +60,26 @@ const BlogView = ({ blog, handleLike, handleDelete }) => {
             </Button>
           )}
         </Box>
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+
+            if (!comment.trim()) return
+
+            handleAddComment(blog.id, comment)
+            setComment('')
+          }}
+        >
+          <input
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder="Write a comment"
+          />
+
+          <button type="submit">add comment</button>
+        </form>
+
         <Typography variant="h6" sx={{ mt: 3 }}>
           Comments
         </Typography>
