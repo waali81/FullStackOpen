@@ -3,7 +3,7 @@ import { useQuery, useMutation } from '@apollo/client/react'
 import { ALL_AUTHORS, EDIT_AUTHOR } from '../queries'
 
 const Authors = (props) => {
-  const [name, setName] = useState('')
+  const [name, setName] = useState('Robert Martin')
   const [born, setBorn] = useState('')
   const result = useQuery(ALL_AUTHORS)
   const [editAuthor] = useMutation(EDIT_AUTHOR, {
@@ -24,7 +24,6 @@ const Authors = (props) => {
       }
     })
 
-    setName('')
     setBorn('')
   }
 
@@ -52,16 +51,23 @@ const Authors = (props) => {
           ))}
         </tbody>
       </table>
+      <h2>Set birthyear</h2>
       <form onSubmit={submit}>
         <div>
           <label>
             name
-            <input
+            <select
               name="name"
-              autoComplete='off'
+              autoComplete="off"
               value={name}
               onChange={({ target }) => setName(target.value)}
-            />
+            >
+              {authors.map((author) => (
+                <option key={author.id} value={author.name}>
+                  {author.name}
+                </option>
+              ))}
+            </select>
           </label>
         </div>
 
@@ -70,7 +76,7 @@ const Authors = (props) => {
             born year
             <input
               name="born"
-              autoComplete='off'
+              autoComplete="off"
               type="number"
               value={born}
               onChange={({ target }) => setBorn(target.value)}
