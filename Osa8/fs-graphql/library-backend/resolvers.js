@@ -1,5 +1,6 @@
 const Book = require("./models/book")
 const Author = require("./models/author")
+const { GraphQLError } = require("graphql")
 
 let authors = [
   {
@@ -105,7 +106,18 @@ const resolvers = {
 
       if (!author) {
         author = new Author({ name: args.author })
-        await author.save()
+
+        try {
+          await author.save()
+        } catch (error) {
+          throw new GraphQLError(`Creating the author failed: ${error.message}`, {
+            extensions: {
+              code: 'BAD_USER_INPUT',
+              invalidArgs: args.author,
+              error
+            }
+          })
+        }
       }
 
       const book = new Book({
@@ -115,7 +127,19 @@ const resolvers = {
         author: author._id,
       })
 
-      return book.save()
+      try {
+        await book.save()
+      } catch (error) {
+        throw new GraphQLError(`Saving book failed: ${error.message}`, {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args.title,
+            error
+          }
+        })
+      }
+      
+      return book
     },
 
     editAuthor: async (root, args) => {
