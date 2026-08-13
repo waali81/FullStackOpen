@@ -51,41 +51,45 @@ const Authors = (props) => {
           ))}
         </tbody>
       </table>
-      <h2>Set birthyear</h2>
-      <form onSubmit={submit}>
-        <div>
-          <label>
-            name
-            <select
-              name="name"
-              autoComplete="off"
-              value={name}
-              onChange={({ target }) => setName(target.value)}
-            >
-              {authors.map((author) => (
-                <option key={author.id} value={author.name}>
-                  {author.name}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
+      {props.token && (
+        <>
+          <h2>Set birthyear</h2>
+          <form onSubmit={submit}>
+            <div>
+              <label>
+                name
+                <select
+                  name="name"
+                  autoComplete="off"
+                  value={name}
+                  onChange={({ target }) => setName(target.value)}
+                >
+                  {authors.map((author) => (
+                    <option key={author.id} value={author.name}>
+                      {author.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
 
-        <div>
-          <label>
-            born year
-            <input
-              name="born"
-              autoComplete="off"
-              type="number"
-              value={born}
-              onChange={({ target }) => setBorn(target.value)}
-            />
-          </label>
-        </div>
+            <div>
+              <label>
+                born year
+                <input
+                  name="born"
+                  autoComplete="off"
+                  type="number"
+                  value={born}
+                  onChange={({ target }) => setBorn(target.value)}
+                />
+              </label>
+            </div>
 
-        <button type="submit">update born year</button>
-      </form>
+            <button type="submit">update born year</button>
+          </form>
+        </>
+      )}
     </div>
   )
 }
