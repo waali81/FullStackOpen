@@ -1,14 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useQuery } from '@apollo/client/react'
 import { ALL_BOOKS, ME } from '../queries'
 
 const Books = (props) => {
   const [genre, setGenre] = useState(null)
-  useEffect(() => {
-    if (props.show && !props.favoriteBooks) {
-      setGenre(null)
-    }
-  }, [props.show, props.favoriteBooks, props.booksView])
 
   const result = useQuery(ALL_BOOKS, {
     variables: { genre },
