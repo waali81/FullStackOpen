@@ -19,11 +19,21 @@ const App = () => {
     setPage('books')
   }
 
+  const [booksView, setBooksView] = useState(0)
+
   return (
     <div>
       <div>
         <button onClick={() => setPage('authors')}>authors</button>
-        <button onClick={() => setPage('books')}>books</button>
+        <button
+          onClick={() => {
+            setPage('books')
+            setBooksView(booksView + 1)
+          }}
+        >
+          books
+        </button>
+        {/* <button onClick={() => setPage('books')}>books</button> */}
         {token && ( 
           <button onClick={() => setPage('recommend')}>recommend</button>
         )} 
@@ -39,7 +49,11 @@ const App = () => {
 
       <Authors show={page === 'authors'} token={token} />
 
-      <Books show={page === 'books'} />
+      {/* <Books show={page === 'books'} /> */}
+      <Books
+        show={page === 'books'}
+        booksView={booksView}
+      />
 
       <Books
         show={page === 'recommend'}
