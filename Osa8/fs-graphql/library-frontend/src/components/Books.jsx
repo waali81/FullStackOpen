@@ -7,7 +7,10 @@ const Books = (props) => {
 
   const result = useQuery(ALL_BOOKS, {
     variables: { genre },
+    fetchPolicy: 'network-only',
   })
+
+  const refetchBooks = result.refetch
 
   const allBooksResult = useQuery(ALL_BOOKS)
 
@@ -66,9 +69,18 @@ const Books = (props) => {
       {!props.favoriteBooks && (
         <div>
           {genres.map((genre) => (
-            <button key={genre} onClick={() => setGenre(genre)}>
+            <button
+              key={genre}
+              onClick={() => {
+                setGenre(genre)
+                refetchBooks({ genre })
+              }}
+            >
               {genre}
             </button>
+/*             <button key={genre} onClick={() => setGenre(genre)}>
+              {genre}
+            </button> */
           ))}
         </div>
       )}
