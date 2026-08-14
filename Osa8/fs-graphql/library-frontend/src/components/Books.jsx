@@ -51,9 +51,17 @@ const Books = (props) => {
     <div>
       <h2>
         {props.favoriteBooks
-          ? `books in your favorite genre: ${favoriteGenre}`
-          : 'books'}
+          ? 'recommendations'
+          : genre
+            ? `books in genre ${genre}`
+            : 'books'}
       </h2>
+      {props.favoriteBooks && (
+        <>
+        <h3>books in your favorite genre:</h3>
+        <div>{favoriteGenre}</div>
+        </>
+      )}
 
       <table>
         <tbody>
@@ -73,6 +81,15 @@ const Books = (props) => {
       </table>
       {!props.favoriteBooks && (
         <div>
+          <button
+            onClick={() => {
+              setGenre(null)
+              refetchBooks({ genre: null })
+            }}
+          >
+            all genres
+          </button>
+
           {genres.map((genre) => (
             <button
               key={genre}

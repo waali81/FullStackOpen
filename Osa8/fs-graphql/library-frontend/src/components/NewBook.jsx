@@ -11,7 +11,7 @@ const NewBook = (props) => {
 
   const [createBook] = useMutation(CREATE_BOOK, {
     refetchQueries: [
-      { query: ALL_BOOKS },
+      { query: ALL_BOOKS, variables: { genre: null } },
       { query: ALL_AUTHORS },
     ],
   })
@@ -23,7 +23,7 @@ const NewBook = (props) => {
   const submit = async (event) => {
     event.preventDefault()
 
-    createBook({
+    await createBook({
       variables: {
         title,
         author,
@@ -79,6 +79,7 @@ const NewBook = (props) => {
           </label>
         </div>
         <label>
+          genre
           <input
             name='genre'
             value={genre}
