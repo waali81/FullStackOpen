@@ -3,6 +3,9 @@ const Author = require("./models/author")
 const { GraphQLError } = require("graphql")
 const User = require("./models/user")
 const jwt = require("jsonwebtoken")
+const { PubSub } = require("graphql-subscriptions")
+
+const pubsub = new PubSub()
 
 const resolvers = {
   Query: {
@@ -73,6 +76,10 @@ const resolvers = {
           }
         })
       }
+
+      const populatedBook = await book.populate("author")
+
+      pubsub.publish("BOOK_ADDED", { bookAdded: book })
       
       return book.populate("author")
     },
@@ -139,7 +146,12 @@ const resolvers = {
 
       return true
     }
-  }
+  },
+  Subscription: {
+    bookAdded: {
+      subscribe: () => pubsub.asyncIterableIterator("BOOK_ADDED"),
+    },
+  },
 }
 
 module.exports = resolvers

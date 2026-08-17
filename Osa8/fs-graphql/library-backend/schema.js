@@ -50,6 +50,10 @@ const typeDefs = /* GraphQL */ `
     _resetDatabase: Boolean
   }
 
+  type Subscription {
+    bookAdded: Book!
+  }
+
   type Query {
     bookCount: Int!
     authorCount: Int!
