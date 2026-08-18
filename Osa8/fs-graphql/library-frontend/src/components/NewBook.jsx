@@ -32,6 +32,8 @@ const NewBook = (props) => {
       },
     })
 
+    window.alert(`New book added: ${title}`)
+
     setTitle('')
     setPublished('')
     setAuthor('')
