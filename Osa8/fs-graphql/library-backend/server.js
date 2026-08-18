@@ -14,6 +14,7 @@ const jwt = require("jsonwebtoken")
 const User = require("./models/user")
 const resolvers = require("./resolvers")
 const typeDefs = require("./schema")
+const bookCountLoader = require("./utils/bookCountLoader")
 
 const getUserFromAuthHeader = async (auth) => {
   if (!auth || !auth.startsWith("Bearer ")) {
@@ -67,7 +68,7 @@ const startServer = async (port) => {
         const auth = req.headers.authorization
         const currentUser = await getUserFromAuthHeader(auth)
 
-        return { currentUser }
+        return { currentUser, bookCountLoader }
       },
     }),
   )
